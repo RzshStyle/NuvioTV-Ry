@@ -25,5 +25,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include(":app")
+include(":iptv-core")
 include(":baselineprofile")
 include(":ffmpeg-decoder-downmix")
