@@ -9,6 +9,7 @@ import com.nuvio.iptv.model.LoadedPlaylist
 import com.nuvio.iptv.model.PlaylistSource
 import com.nuvio.iptv.model.Programme
 import com.nuvio.iptv.net.IptvHttp
+import com.nuvio.iptv.net.IptvHttpException
 import com.nuvio.iptv.xtream.XtreamClient
 import kotlinx.coroutines.CancellationException
 import java.io.File
@@ -22,9 +23,53 @@ class IptvEngine(private val http: IptvHttp = IptvHttp()) {
 
     val xtream = XtreamClient(http)
 
-    suspend fun loadPlaylist(source: PlaylistSource): LoadedPlaylist = when (source) {
-        is PlaylistSource.M3u -> loadM3u(source)
-        is PlaylistSource.Xtream -> loadXtream(source)
+    /**
+     * Loads [source]. When the user gave no user agent and the server rejects the request, retries
+     * with the agents of common IPTV players (many panels only allow known players) and, for an
+     * https:// address, with http://. The returned [LoadedPlaylist.source] carries what worked, so
+     * callers should store that.
+     */
+    suspend fun loadPlaylist(source: PlaylistSource): LoadedPlaylist {
+        var firstError: Exception? = null
+        for (candidate in candidatesFor(source)) {
+            try {
+                return when (candidate) {
+                    is PlaylistSource.M3u -> loadM3u(candidate)
+                    is PlaylistSource.Xtream -> loadXtream(candidate)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                if (firstError == null) firstError = e
+                if (!isRetryable(e)) break
+            }
+        }
+        throw firstError ?: IllegalStateException("Could not load playlist")
+    }
+
+    private fun isRetryable(e: Exception): Boolean = when (e) {
+        is IptvHttpException -> e.code != 401 && e.code != 404
+        is javax.net.ssl.SSLException -> true
+        is java.io.IOException -> true
+        else -> false
+    }
+
+    private fun candidatesFor(source: PlaylistSource): List<PlaylistSource> {
+        val agents: List<String?> = if (userAgentOf(source) != null) listOf(userAgentOf(source)) else listOf(null) + FALLBACK_USER_AGENTS
+        val out = ArrayList<PlaylistSource>()
+        for (ua in agents) {
+            when (source) {
+                is PlaylistSource.M3u -> out += source.copy(userAgent = ua)
+                is PlaylistSource.Xtream -> {
+                    out += source.copy(userAgent = ua)
+                    val trimmed = source.serverUrl.trim()
+                    if (trimmed.startsWith("https://", ignoreCase = true)) {
+                        out += source.copy(serverUrl = "http://" + trimmed.substring(8), userAgent = ua)
+                    }
+                }
+            }
+        }
+        return out
     }
 
     private suspend fun loadM3u(source: PlaylistSource.M3u): LoadedPlaylist {
@@ -69,7 +114,7 @@ class IptvEngine(private val http: IptvHttp = IptvHttp()) {
         val to = nowMs + futureDays * DAY_MS
         for (url in playlist.epgUrls) {
             try {
-                http.get(url) { builder.addXmltv(it, from, to) }
+                http.get(url, uaHeaders(playlist.source)) { builder.addXmltv(it, from, to) }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -108,6 +153,23 @@ class IptvEngine(private val http: IptvHttp = IptvHttp()) {
 
     companion object {
         const val DAY_MS = 86_400_000L
+
+        /** Tried in order when a server rejects the default agent. Mirrors common IPTV players. */
+        val FALLBACK_USER_AGENTS: List<String> = listOf(
+            "TiviMate/5.1.6 (Android 12)",
+            "IPTVSmartersPlayer",
+            "VLC/3.0.21 LibVLC/3.0.21",
+            "okhttp/4.12.0",
+            "Dalvik/2.1.0 (Linux; U; Android 12)",
+        )
+
+        fun userAgentOf(source: PlaylistSource): String? = when (source) {
+            is PlaylistSource.M3u -> source.userAgent
+            is PlaylistSource.Xtream -> source.userAgent
+        }
+
+        fun uaHeaders(source: PlaylistSource): Map<String, String> =
+            userAgentOf(source)?.let { mapOf("User-Agent" to it) } ?: emptyMap()
 
         fun groupsOf(channels: List<LiveChannel>): List<ChannelGroup> {
             val map = LinkedHashMap<String, MutableList<String>>()

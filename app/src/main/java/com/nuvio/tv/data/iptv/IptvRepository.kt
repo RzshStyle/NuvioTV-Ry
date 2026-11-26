@@ -120,18 +120,20 @@ class IptvRepository(
             return Result.failure(IllegalStateException(describe(e), e))
         }
         if (loaded.channels.isEmpty()) return Result.failure(IllegalStateException("No live channels were found in this playlist"))
+        // The engine may have switched user agent or http/https to get past a server block; keep what worked.
+        val saved = loaded.source
         mutex.withLock {
             stored = stored.copy(
-                sources = stored.sources.filterNot { it.id == withId.id } + withId,
-                playlistUpdatedAt = stored.playlistUpdatedAt + (withId.id to System.currentTimeMillis()),
+                sources = stored.sources.filterNot { it.id == saved.id } + saved,
+                playlistUpdatedAt = stored.playlistUpdatedAt + (saved.id to System.currentTimeMillis()),
             )
             store.write(profileId, stored)
-            playlists[withId.id] = loaded
+            playlists[saved.id] = loaded
             writeCachedPlaylist(profileId, loaded)
             publish(profileId)
         }
-        refreshEpg(withId, force = true)
-        return Result.success(withId)
+        refreshEpg(saved, force = true)
+        return Result.success(saved)
     }
 
     fun removeSource(sourceId: String) {
@@ -225,7 +227,10 @@ class IptvRepository(
             val loaded = engine.loadPlaylist(source)
             mutex.withLock {
                 playlists[source.id] = loaded
-                stored = stored.copy(playlistUpdatedAt = stored.playlistUpdatedAt + (source.id to System.currentTimeMillis()))
+                stored = stored.copy(
+                    sources = stored.sources.map { if (it.id == source.id) loaded.source else it },
+                    playlistUpdatedAt = stored.playlistUpdatedAt + (source.id to System.currentTimeMillis()),
+                )
                 store.write(profileId, stored)
                 writeCachedPlaylist(profileId, loaded)
                 publish(profileId)
@@ -366,6 +371,7 @@ class IptvRepository(
         is com.nuvio.iptv.net.IptvHttpException -> when (e.code) {
             401, 403 -> "The server refused access (HTTP ${e.code}). Check your login details."
             404 -> "Playlist not found (HTTP 404). Check the address."
+            in 500..599 -> "The server turned the app away (HTTP ${e.code}), even after trying other player identities. Check the address, or try a backup address from your provider."
             else -> "The server returned an error (HTTP ${e.code})."
         }
         is java.net.UnknownHostException -> "Server not found. Check the address."
