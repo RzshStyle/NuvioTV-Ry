@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Dns
 import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.Power
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,19 +37,24 @@ internal fun ContentDiscoverySettingsContent(
     var serverPage by rememberSaveable { mutableStateOf<String?>(null) }
     var focusPluginsOnReturn by rememberSaveable { mutableStateOf(false) }
     val hubServersRequester = remember { FocusRequester() }
+    val hubIptvRequester = remember { FocusRequester() }
+    val iptvRequester = remember { FocusRequester() }
+    var returnToIptvRow by remember { mutableStateOf(false) }
     val serversRequester = remember { FocusRequester() }
     val serverRequester = remember { FocusRequester() }
     var returningToHub by remember { mutableStateOf(false) }
 
     BackHandler(enabled = serverPage != null) {
-        serverPage = if (serverPage == SERVERS_PAGE) null else SERVERS_PAGE
+        returnToIptvRow = serverPage == IPTV_PAGE
+        serverPage = if (serverPage == SERVERS_PAGE || serverPage == IPTV_PAGE) null else SERVERS_PAGE
         if (serverPage == null) returningToHub = true
     }
 
     LaunchedEffect(serverPage) {
         val requester = when (serverPage) {
-            null -> hubServersRequester.takeIf { returningToHub }
+            null -> (if (returnToIptvRow) hubIptvRequester else hubServersRequester).takeIf { returningToHub }
             SERVERS_PAGE -> serversRequester
+            IPTV_PAGE -> iptvRequester
             else -> serverRequester
         } ?: return@LaunchedEffect
         returningToHub = false
@@ -66,11 +72,14 @@ internal fun ContentDiscoverySettingsContent(
                 onNavigateToPlugins()
             },
             onNavigateToServers = { serverPage = SERVERS_PAGE },
+            onNavigateToIptv = { serverPage = IPTV_PAGE },
+            iptvFocusRequester = hubIptvRequester,
             showPlugins = showPlugins,
             initialFocusRequester = initialFocusRequester,
             focusPluginsOnReturn = focusPluginsOnReturn && showPlugins,
             serversFocusRequester = hubServersRequester
         )
+        IPTV_PAGE -> IptvSettingsContent(initialFocusRequester = iptvRequester)
         SERVERS_PAGE -> MediaServersSettingsContent(
             initialFocusRequester = serversRequester,
             onOpenServer = { serverPage = it }
@@ -89,6 +98,8 @@ private fun ContentDiscoveryHub(
     onNavigateToAddons: () -> Unit,
     onNavigateToPlugins: () -> Unit,
     onNavigateToServers: () -> Unit,
+    onNavigateToIptv: () -> Unit,
+    iptvFocusRequester: FocusRequester,
     showPlugins: Boolean,
     initialFocusRequester: FocusRequester?,
     focusPluginsOnReturn: Boolean,
@@ -121,6 +132,13 @@ private fun ContentDiscoveryHub(
                 leadingIcon = Icons.Default.Dns,
                 modifier = Modifier.focusRequester(serversFocusRequester)
             )
+            SettingsActionRow(
+                title = stringResource(R.string.iptv_settings_title),
+                subtitle = stringResource(R.string.iptv_settings_row_subtitle),
+                onClick = onNavigateToIptv,
+                leadingIcon = Icons.Default.LiveTv,
+                modifier = Modifier.focusRequester(iptvFocusRequester)
+            )
             if (showPlugins) {
                 SettingsActionRow(
                     title = stringResource(R.string.plugin_title),
@@ -139,3 +157,4 @@ private fun ContentDiscoveryHub(
 }
 
 private const val SERVERS_PAGE = "servers"
+private const val IPTV_PAGE = "iptv"

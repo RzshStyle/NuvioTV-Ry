@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="iptv_settings_title">Live TV playlists</string>
+    <string name="iptv_settings_subtitle">Add your own IPTV provider with an Xtream Codes login or an M3U link. Nothing is included with the app.</string>
+    <string name="iptv_settings_row_subtitle">Xtream Codes or M3U playlists with a TV guide</string>
+    <string name="iptv_section_playlists">Your playlists</string>
+    <string name="iptv_section_add">Add a playlist</string>
+    <string name="iptv_empty">No playlists yet. Add one below to see Live TV.</string>
+    <string name="iptv_add_xtream">Xtream Codes login</string>
+    <string name="iptv_add_xtream_subtitle">Server address, username and password from your provider</string>
+    <string name="iptv_add_m3u">M3U playlist link</string>
+    <string name="iptv_add_m3u_subtitle">A playlist URL, with an optional EPG guide link</string>
+    <string name="iptv_kind_xtream">Xtream Codes</string>
+    <string name="iptv_kind_m3u">M3U</string>
+    <string name="iptv_status_loading">Loading channels…</string>
+    <string name="iptv_status_loading_guide">Loading guide…</string>
+    <string name="iptv_status_channels">%1$d channels</string>
+    <string name="iptv_status_guide">Guide for %1$d channels</string>
+    <string name="iptv_updated_playlist">Channels updated %1$s</string>
+    <string name="iptv_updated_guide">Guide updated %1$s</string>
+    <string name="iptv_expires">Subscription expires %1$s</string>
+    <string name="iptv_connections">Allowed connections: %1$d</string>
+    <string name="iptv_guide_error">Guide %1$s failed: %2$s</string>
+    <string name="iptv_refresh">Refresh now</string>
+    <string name="iptv_remove">Remove</string>
+    <string name="iptv_remove_confirm">Press again to remove</string>
+    <string name="iptv_xtream_dialog_subtitle">Enter the details your provider gave you. The guide is loaded from the provider automatically.</string>
+    <string name="iptv_m3u_dialog_subtitle">Paste the playlist link from your provider.</string>
+    <string name="iptv_field_name">Name</string>
+    <string name="iptv_field_name_hint">For example, My provider</string>
+    <string name="iptv_field_server">Server address</string>
+    <string name="iptv_field_server_hint">http://example.com:8080</string>
+    <string name="iptv_field_m3u">Playlist URL</string>
+    <string name="iptv_field_m3u_hint">http://example.com/get.php?…</string>
+    <string name="iptv_field_epg_optional">EPG guide URL (optional)</string>
+    <string name="iptv_field_epg_hint">http://example.com/xmltv.php?… (several allowed, comma separated)</string>
+    <string name="iptv_field_epg_xtream_hint">Leave empty to use the provider\'s guide</string>
+    <string name="iptv_field_user_agent">User agent (optional)</string>
+    <string name="iptv_field_user_agent_hint">Only if your provider asks for one</string>
+    <string name="iptv_field_hls">Use HLS streams</string>
+    <string name="iptv_field_hls_subtitle">Plays .m3u8 instead of .ts. Try this if channels buffer or fail.</string>
+    <string name="iptv_add">Add playlist</string>
+    <string name="iptv_adding">Checking…</string>
+</resources>

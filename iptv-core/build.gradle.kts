@@ -2,6 +2,7 @@
 // It has no Android dependencies so the same module can be dropped into the phone app.
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 java {

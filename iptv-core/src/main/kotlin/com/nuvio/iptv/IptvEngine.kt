@@ -11,6 +11,7 @@ import com.nuvio.iptv.model.Programme
 import com.nuvio.iptv.net.IptvHttp
 import com.nuvio.iptv.xtream.XtreamClient
 import kotlinx.coroutines.CancellationException
+import java.io.File
 import java.io.InputStreamReader
 
 /**
@@ -76,6 +77,30 @@ class IptvEngine(private val http: IptvHttp = IptvHttp()) {
             }
         }
         return EpgLoadResult(builder.build(), failures)
+    }
+
+    /** Downloads [url] to [dest] atomically (temp file + rename). */
+    suspend fun download(url: String, dest: File, headers: Map<String, String> = emptyMap()) {
+        dest.parentFile?.mkdirs()
+        val tmp = File(dest.parentFile, dest.name + ".part")
+        http.get(url, headers) { input -> tmp.outputStream().use { input.copyTo(it, 64 * 1024) } }
+        if (dest.exists()) dest.delete()
+        if (!tmp.renameTo(dest)) throw java.io.IOException("Could not save ${dest.name}")
+    }
+
+    /** Builds a guide from previously downloaded XMLTV files (plain or gzipped). */
+    fun epgFromFiles(
+        channels: List<LiveChannel>,
+        files: List<File>,
+        nowMs: Long = System.currentTimeMillis(),
+        pastDays: Int = maxCatchupDays(channels).coerceIn(1, 14),
+        futureDays: Int = 3,
+    ): EpgIndex {
+        val builder = EpgIndex.Builder(channels)
+        val from = nowMs - pastDays * DAY_MS
+        val to = nowMs + futureDays * DAY_MS
+        for (f in files) if (f.isFile) f.inputStream().use { builder.addXmltv(it, from, to) }
+        return builder.build()
     }
 
     fun catchupUrl(channel: LiveChannel, programme: Programme, nowMs: Long, serverUtcOffsetMinutes: Int = 0): String? =

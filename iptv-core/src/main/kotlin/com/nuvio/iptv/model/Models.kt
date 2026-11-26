@@ -1,8 +1,12 @@
 package com.nuvio.iptv.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 /**
  * A playlist the user added in settings. Nothing is bundled: every source comes from the user.
  */
+@Serializable
 sealed interface PlaylistSource {
     val id: String
     val name: String
@@ -10,6 +14,8 @@ sealed interface PlaylistSource {
     /** Extra EPG (XMLTV) URLs entered by the user. Xtream sources also get the panel's own xmltv.php. */
     val epgUrls: List<String>
 
+    @Serializable
+    @SerialName("m3u")
     data class M3u(
         override val id: String,
         override val name: String,
@@ -18,6 +24,8 @@ sealed interface PlaylistSource {
         val userAgent: String? = null,
     ) : PlaylistSource
 
+    @Serializable
+    @SerialName("xtream")
     data class Xtream(
         override val id: String,
         override val name: String,
@@ -27,11 +35,15 @@ sealed interface PlaylistSource {
         override val epgUrls: List<String> = emptyList(),
         val outputFormat: XtreamOutput = XtreamOutput.TS,
         val userAgent: String? = null,
-    ) : PlaylistSource
+    ) : PlaylistSource {
+        override fun toString(): String = "Xtream(id=$id, name=$name, serverUrl=$serverUrl)"
+    }
 }
 
+@Serializable
 enum class XtreamOutput(val extension: String) { TS("ts"), HLS("m3u8") }
 
+@Serializable
 data class LiveChannel(
     /** Stable across refreshes: "<sourceId>:<key>" where key is the Xtream stream id or the M3U url/tvg-id. */
     val id: String,
@@ -54,10 +66,13 @@ data class LiveChannel(
     }
 }
 
+@Serializable
 data class ChannelGroup(val name: String, val channelIds: List<String>)
 
+@Serializable
 enum class CatchupType { DEFAULT, APPEND, SHIFT, FLUSSONIC, XTREAM }
 
+@Serializable
 data class Catchup(
     val type: CatchupType,
     val days: Int,
@@ -65,6 +80,7 @@ data class Catchup(
     val source: String? = null,
 )
 
+@Serializable
 data class Programme(
     val channelId: String,
     val startMs: Long,
@@ -80,6 +96,7 @@ data class Programme(
     fun isLiveAt(nowMs: Long): Boolean = nowMs in startMs until endMs
 }
 
+@Serializable
 data class EpgChannel(
     val id: String,
     val displayNames: List<String>,
@@ -87,6 +104,7 @@ data class EpgChannel(
 )
 
 /** Result of loading one source. */
+@Serializable
 data class LoadedPlaylist(
     val source: PlaylistSource,
     val channels: List<LiveChannel>,
@@ -96,6 +114,7 @@ data class LoadedPlaylist(
     val account: XtreamAccountInfo? = null,
 )
 
+@Serializable
 data class XtreamAccountInfo(
     val status: String?,
     val expiresAtMs: Long?,
