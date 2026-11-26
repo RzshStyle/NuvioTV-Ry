@@ -58,7 +58,7 @@ class CollectionsDataStore @Inject constructor(
     val collections: Flow<List<Collection>> =
         profileManager.activeProfileId.flatMapLatest { pid ->
             factory.get(pid, FEATURE).data.map { prefs ->
-                parseCollections(prefs[collectionsKey])
+                PlumePicks.withPicks(parseCollections(prefs[collectionsKey]))
             }
         }
 
@@ -261,7 +261,11 @@ class CollectionsDataStore @Inject constructor(
         val year: Int? = null,
         val watchRegion: String? = null,
         val withWatchProviders: String? = null,
-        val withoutWatchProviders: String? = null
+        val withoutWatchProviders: String? = null,
+        val withReleaseType: String? = null,
+        val certificationLte: String? = null,
+        val certificationCountry: String? = null,
+        val withWatchMonetizationTypes: String? = null
     )
 
     @androidx.annotation.Keep
@@ -353,7 +357,11 @@ class CollectionsDataStore @Inject constructor(
         year = year,
         watchRegion = watchRegion,
         withWatchProviders = withWatchProviders,
-        withoutWatchProviders = withoutWatchProviders
+        withoutWatchProviders = withoutWatchProviders,
+        withReleaseType = withReleaseType,
+        certificationLte = certificationLte,
+        certificationCountry = certificationCountry,
+        withWatchMonetizationTypes = withWatchMonetizationTypes
     )
 
     private fun SerializableCollection.toDomain() = Collection(
@@ -461,6 +469,10 @@ class CollectionsDataStore @Inject constructor(
         year = year,
         watchRegion = watchRegion,
         withWatchProviders = withWatchProviders,
-        withoutWatchProviders = withoutWatchProviders
+        withoutWatchProviders = withoutWatchProviders,
+        withReleaseType = withReleaseType,
+        certificationLte = certificationLte,
+        certificationCountry = certificationCountry,
+        withWatchMonetizationTypes = withWatchMonetizationTypes
     )
 }

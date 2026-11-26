@@ -113,7 +113,14 @@ data class TmdbCollectionFilters(
     val year: Int? = null,
     val watchRegion: String? = null,
     val withWatchProviders: String? = null,
-    val withoutWatchProviders: String? = null
+    val withoutWatchProviders: String? = null,
+    /** Movies only: TMDB release types, e.g. "4|5" (digital or physical). */
+    val withReleaseType: String? = null,
+    /** Movies only: highest age rating, e.g. "PG", for [certificationCountry] (or the region). */
+    val certificationLte: String? = null,
+    val certificationCountry: String? = null,
+    /** Where a title can be watched: "flatrate|free|ads|rent|buy". */
+    val withWatchMonetizationTypes: String? = null
 )
 
 @Immutable

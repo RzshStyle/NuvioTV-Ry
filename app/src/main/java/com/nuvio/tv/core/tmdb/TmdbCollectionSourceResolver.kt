@@ -16,6 +16,7 @@ import com.nuvio.tv.domain.model.CatalogRow
 import com.nuvio.tv.domain.model.ContentType
 import com.nuvio.tv.domain.model.MetaPreview
 import com.nuvio.tv.domain.model.PosterShape
+import com.nuvio.tv.domain.model.TmdbCollectionFilters
 import com.nuvio.tv.domain.model.TmdbCollectionMediaType
 import com.nuvio.tv.domain.model.TmdbCollectionSort
 import com.nuvio.tv.domain.model.TmdbCollectionSource
@@ -233,8 +234,20 @@ class TmdbCollectionSourceResolver @Inject constructor(
         } else {
             source.mediaType
         }
-        val filters = source.filters
+        val filters = source.filters.withPlaceholdersFilled()
         val today = LocalDate.now().toString()
+        val region = deviceRegion()
+        // Monetization types need a watch region; providers keep their old default region.
+        val watchRegion = when {
+            !filters.withWatchProviders.isNullOrBlank() || !filters.withoutWatchProviders.isNullOrBlank() ->
+                filters.watchRegion?.takeIf { it.isNotBlank() } ?: "US"
+            !filters.withWatchMonetizationTypes.isNullOrBlank() -> filters.watchRegion?.takeIf { it.isNotBlank() } ?: region
+            else -> null
+        }
+        val monetization = filters.withWatchMonetizationTypes?.takeIf { it.isNotBlank() }
+            ?: if (!filters.withWatchProviders.isNullOrBlank()) "flatrate|free|ads|rent|buy" else null
+        // A release type (digital, physical...) filters on any release in the region, not the first one.
+        val byReleaseType = !filters.withReleaseType.isNullOrBlank()
         val response = when (mediaType) {
             TmdbCollectionMediaType.MOVIE -> tmdbApi.discoverMovies(
                 apiKey = BuildConfig.TMDB_API_KEY,
@@ -245,10 +258,10 @@ class TmdbCollectionSourceResolver @Inject constructor(
                     TmdbCollectionSourceType.COMPANY -> source.tmdbId?.toString()
                     else -> filters.withCompanies
                 },
-                releaseDateLte = filters.releaseDateLte,
+                releaseDateLte = filters.releaseDateLte.takeUnless { byReleaseType },
                 voteCountGte = filters.voteCountGte,
                 withGenres = filters.withGenres,
-                releaseDateGte = filters.releaseDateGte,
+                releaseDateGte = filters.releaseDateGte.takeUnless { byReleaseType },
                 voteAverageGte = filters.voteAverageGte,
                 voteAverageLte = filters.voteAverageLte,
                 withOriginalLanguage = filters.withOriginalLanguage,
@@ -256,14 +269,20 @@ class TmdbCollectionSourceResolver @Inject constructor(
                 withKeywords = filters.withKeywords,
                 withoutKeywords = filters.withoutKeywords,
                 year = filters.year,
-                watchRegion = if (!filters.withWatchProviders.isNullOrBlank() || !filters.withoutWatchProviders.isNullOrBlank()) {
-                    filters.watchRegion?.takeIf { it.isNotBlank() } ?: "US"
-                } else null,
+                watchRegion = watchRegion,
                 withWatchProviders = filters.withWatchProviders,
-                withWatchMonetizationTypes = if (!filters.withWatchProviders.isNullOrBlank()) "flatrate|free|ads|rent|buy" else null,
+                withWatchMonetizationTypes = monetization,
                 withoutCompanies = filters.withoutCompanies,
                 withoutGenres = filters.withoutGenres,
-                withoutWatchProviders = filters.withoutWatchProviders
+                withoutWatchProviders = filters.withoutWatchProviders,
+                withReleaseType = filters.withReleaseType,
+                anyReleaseDateGte = filters.releaseDateGte.takeIf { byReleaseType },
+                anyReleaseDateLte = filters.releaseDateLte.takeIf { byReleaseType },
+                region = region.takeIf { byReleaseType },
+                certificationCountry = if (!filters.certificationLte.isNullOrBlank()) {
+                    filters.certificationCountry?.takeIf { it.isNotBlank() } ?: region
+                } else null,
+                certificationLte = filters.certificationLte
             ).body()
             TmdbCollectionMediaType.TV -> tmdbApi.discoverTv(
                 apiKey = BuildConfig.TMDB_API_KEY,
@@ -290,11 +309,9 @@ class TmdbCollectionSourceResolver @Inject constructor(
                 withKeywords = filters.withKeywords,
                 withoutKeywords = filters.withoutKeywords,
                 firstAirDateYear = filters.year,
-                watchRegion = if (!filters.withWatchProviders.isNullOrBlank() || !filters.withoutWatchProviders.isNullOrBlank()) {
-                    filters.watchRegion?.takeIf { it.isNotBlank() } ?: "US"
-                } else null,
+                watchRegion = watchRegion,
                 withWatchProviders = filters.withWatchProviders,
-                withWatchMonetizationTypes = if (!filters.withWatchProviders.isNullOrBlank()) "flatrate|free|ads|rent|buy" else null,
+                withWatchMonetizationTypes = monetization,
                 withoutCompanies = filters.withoutCompanies,
                 withoutGenres = filters.withoutGenres,
                 withoutWatchProviders = filters.withoutWatchProviders
@@ -306,6 +323,24 @@ class TmdbCollectionSourceResolver @Inject constructor(
             page = response.page ?: page,
             hasMore = (response.page ?: page) < (response.totalPages ?: page) && items.isNotEmpty(),
             items = items
+        )
+    }
+
+    private fun deviceRegion(): String =
+        Locale.getDefault().country.takeIf { it.length == 2 }?.uppercase(Locale.US) ?: "GB"
+
+    /**
+     * Fills {today}, {d-N} (N days ago), {d+N} and {region} in text filters, so a row like
+     * "released in the last 60 days" stays current.
+     */
+    private fun TmdbCollectionFilters.withPlaceholdersFilled(): TmdbCollectionFilters {
+        fun fill(v: String?): String? = v?.let { TmdbPlaceholders.fill(it, LocalDate.now(), deviceRegion()) }
+        return copy(
+            releaseDateGte = fill(releaseDateGte),
+            releaseDateLte = fill(releaseDateLte),
+            watchRegion = fill(watchRegion),
+            certificationCountry = fill(certificationCountry),
+            withOriginCountry = fill(withOriginCountry)
         )
     }
 

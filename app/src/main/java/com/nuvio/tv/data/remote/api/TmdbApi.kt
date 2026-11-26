@@ -200,7 +200,13 @@ interface TmdbApi {
         @Query("without_companies") withoutCompanies: String? = null,
         @Query("without_genres") withoutGenres: String? = null,
         @Query("without_keywords") withoutKeywords: String? = null,
-        @Query("without_watch_providers") withoutWatchProviders: String? = null
+        @Query("without_watch_providers") withoutWatchProviders: String? = null,
+        @Query("with_release_type") withReleaseType: String? = null,
+        @Query("release_date.gte") anyReleaseDateGte: String? = null,
+        @Query("release_date.lte") anyReleaseDateLte: String? = null,
+        @Query("region") region: String? = null,
+        @Query("certification_country") certificationCountry: String? = null,
+        @Query("certification.lte") certificationLte: String? = null
     ): Response<TmdbDiscoverResponse>
 
     @GET("discover/tv")
