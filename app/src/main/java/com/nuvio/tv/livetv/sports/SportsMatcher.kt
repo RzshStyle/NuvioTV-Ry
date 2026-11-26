@@ -1567,6 +1567,7 @@ internal class SportsMatcher(
             Sport.GOLF to listOf("golf"),
             Sport.RACING to listOf("motogp", "formula 1", "formula one", "nascar", "indycar", "superbikes", "wsbk"),
             Sport.LACROSSE to listOf("lacrosse"),
+            Sport.EXTREME to listOf("supercross", "motocross", "monster jam", "monster truck", "x games", "nitro circus", "skateboarding", "bmx"),
             Sport.OTHER to listOf("futsal", "badminton", "table tennis", "esports", "cycling", "horse racing")
         )
 

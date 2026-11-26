@@ -27,6 +27,7 @@ enum class Sport(val label: String, val icon: String) {
     GAELIC("Gaelic Games", "☘️"),
     NETBALL("Netball", "🤾"),
     HANDBALL("Handball", "🤾"),
+    EXTREME("Extreme Sports", "🏍️"),
     OTHER("More Sports", "🏅");
 
     /** Home team first with "v" (UK style) instead of away team first with "at" (US style). */

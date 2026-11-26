@@ -18,13 +18,13 @@ object SportsCatalog {
         // ---- American football
         // NFL and NBA: on by default in the US and Canada only (elsewhere, add them in Leagues or follow a team).
         League("football/nfl", Sport.AMERICAN_FOOTBALL, "NFL", "NFL", "football/nfl", guideWords = listOf("NFL"),
-            regions = NA, minutes = 195, color = 0xFF013369),
+            regions = EVERYWHERE, minutes = 195, color = 0xFF013369),
         League("football/college-football", Sport.AMERICAN_FOOTBALL, "College Football", "NCAAF", "football/college-football",
             guideWords = listOf("College Football", "NCAA Football", "NCAAF", "CFB"), regions = NA, minutes = 210,
             schoolNames = true, espnQuery = "&groups=80", color = 0xFF1E3A5F),
         // ---- Basketball
         League("basketball/nba", Sport.BASKETBALL, "NBA", "NBA", "basketball/nba", guideWords = listOf("NBA"),
-            regions = NA, minutes = 150, color = 0xFF1D428A),
+            regions = EVERYWHERE, minutes = 150, color = 0xFF1D428A),
         League("basketball/wnba", Sport.BASKETBALL, "WNBA", "WNBA", "basketball/wnba", guideWords = listOf("WNBA"),
             regions = NA, minutes = 120, color = 0xFFC8102E),
         League("basketball/mens-college-basketball", Sport.BASKETBALL, "Men's College Basketball", "NCAAM",
@@ -35,9 +35,9 @@ object SportsCatalog {
             regions = US, minutes = 125, schoolNames = true, espnQuery = "&groups=50", color = 0xFF5B3A8C),
         // ---- Hockey and baseball
         League("hockey/nhl", Sport.HOCKEY, "NHL", "NHL", "hockey/nhl", guideWords = listOf("NHL"),
-            regions = setOf("US", "CA", "OTHER"), minutes = 160, color = 0xFF111111),
+            regions = EVERYWHERE, minutes = 160, color = 0xFF111111),
         League("baseball/mlb", Sport.BASEBALL, "MLB", "MLB", "baseball/mlb", guideWords = listOf("MLB", "Baseball"),
-            regions = setOf("US", "CA", "OTHER"), minutes = 185, color = 0xFF002D72),
+            regions = EVERYWHERE, minutes = 185, color = 0xFF002D72),
         // ---- Football (soccer)
         League("soccer/eng.1", Sport.FOOTBALL, "Premier League", "EPL", "soccer/eng.1", guideWords = listOf("Premier League", "EPL"),
             regions = EVERYWHERE, minutes = 115, color = 0xFF3D195B),
@@ -362,9 +362,9 @@ object SportsCatalog {
         League("racing/f1", Sport.RACING, "Formula 1", "F1", "racing/f1", LeagueKind.EVENT,
             guideWords = listOf("Formula 1", "F1", "Grand Prix"), regions = EVERYWHERE, minutes = 120, color = 0xFFE10600),
         League("racing/nascar-premier", Sport.RACING, "NASCAR Cup", "NASCAR", "racing/nascar-premier", LeagueKind.EVENT,
-            guideWords = listOf("NASCAR"), regions = US, minutes = 210, color = 0xFF007AC2),
+            guideWords = listOf("NASCAR"), regions = EVERYWHERE, minutes = 210, color = 0xFF007AC2),
         League("racing/irl", Sport.RACING, "IndyCar", "INDY", "racing/irl", LeagueKind.EVENT, guideWords = listOf("IndyCar"),
-            regions = US, minutes = 180, color = 0xFF1E1E1E),
+            regions = EVERYWHERE, minutes = 180, color = 0xFF1E1E1E),
         League("guide/motogp", Sport.RACING, "MotoGP", "MOTOGP", guideWords = listOf("MotoGP"), regions = setOf("UK", "IE", "AU", "OTHER"),
             guideOnly = true, fixtureSlug = "motogp", kind = LeagueKind.EVENT, color = 0xFF231F20),
         // ---- Golf and tennis
@@ -396,7 +396,31 @@ object SportsCatalog {
             guideWords = listOf("Horse Racing", "ITV Racing", "Racing TV", "Live Racing"),
             regions = setOf("UK", "IE", "AU", "OTHER"), guideOnly = true, fixtureSlug = "horse-racing", kind = LeagueKind.EVENT, color = 0xFF5D4037),
         League("guide/cycling", Sport.OTHER, "Cycling", "CYCLING", guideWords = listOf("Cycling", "Tour de France", "Giro", "Vuelta"),
-            regions = setOf("UK", "IE", "OTHER"), guideOnly = true, fixtureSlug = "cycling", kind = LeagueKind.EVENT, color = 0xFFF2C200)
+            regions = setOf("UK", "IE", "OTHER"), guideOnly = true, fixtureSlug = "cycling", kind = LeagueKind.EVENT, color = 0xFFF2C200),
+        // ---- Extreme sports and more motorsport (from your guide, everywhere)
+        League("guide/supercross", Sport.EXTREME, "Supercross", "SX",
+            guideWords = listOf("Supercross", "SuperMotocross", "SMX World Championship", "AMA Supercross"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFF0B3D91),
+        League("guide/motocross", Sport.EXTREME, "Motocross", "MX",
+            guideWords = listOf("Motocross", "MXGP", "Pro Motocross", "MX Nationals", "Motocross of Nations", "Enduro", "Hard Enduro"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFFE87722),
+        League("guide/monster-trucks", Sport.EXTREME, "Monster Trucks", "MONSTER",
+            guideWords = listOf("Monster Jam", "Monster Truck", "Monster Trucks"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 150, color = 0xFF3FA535),
+        League("guide/x-games", Sport.EXTREME, "X Games & Action Sports", "ACTION",
+            guideWords = listOf("X Games", "Nitro Circus", "Nitro World Games", "Freestyle Motocross", "FMX", "Red Bull Rampage",
+                "Red Bull Cliff Diving", "Red Bull Hardline", "Crankworx", "Street League Skateboarding", "Skateboarding", "BMX",
+                "Snowboarding", "Freeski", "Freestyle Skiing", "Mountain Bike", "Downhill MTB", "Surfing", "World Surf League", "Big Wave"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFF111111),
+        League("guide/rally", Sport.RACING, "Rally & Rallycross", "RALLY",
+            guideWords = listOf("WRC", "World Rally Championship", "Rally Championship", "Dakar", "Rallycross", "Nitro Rallycross", "Extreme E", "Baja 1000"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFF1F3A93),
+        League("guide/superbikes", Sport.RACING, "Superbikes & Road Racing", "BIKES",
+            guideWords = listOf("WorldSBK", "World Superbikes", "Superbikes", "British Superbikes", "Isle of Man TT", "North West 200"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFFB71C1C),
+        League("guide/drag-racing", Sport.RACING, "Drag Racing", "NHRA",
+            guideWords = listOf("NHRA", "Drag Racing", "Top Fuel"),
+            regions = EVERYWHERE, guideOnly = true, kind = LeagueKind.EVENT, minutes = 180, color = 0xFFFF6F00)
     )
 
     private val byId = leagues.associateBy { it.id }
@@ -544,7 +568,7 @@ object SportsCatalog {
     fun ordered(s: SportsSettings): List<League> {
         val region = regionOf(s)
         val first: List<Sport> = when (region) {
-            "UK", "IE" -> listOf(Sport.FOOTBALL, Sport.RUGBY, Sport.CRICKET, Sport.DARTS, Sport.SNOOKER, Sport.RACING, Sport.FIGHTING, Sport.WRESTLING, Sport.GOLF, Sport.TENNIS)
+            "UK", "IE" -> listOf(Sport.FOOTBALL, Sport.AMERICAN_FOOTBALL, Sport.BASKETBALL, Sport.HOCKEY, Sport.BASEBALL, Sport.RACING, Sport.EXTREME, Sport.FIGHTING, Sport.RUGBY, Sport.CRICKET, Sport.DARTS, Sport.SNOOKER, Sport.WRESTLING, Sport.GOLF, Sport.TENNIS)
             "AU" -> listOf(Sport.AUSSIE_RULES, Sport.RUGBY, Sport.CRICKET, Sport.FOOTBALL, Sport.BASKETBALL)
             "CA" -> listOf(Sport.HOCKEY, Sport.AMERICAN_FOOTBALL, Sport.BASKETBALL, Sport.BASEBALL)
             else -> listOf(Sport.AMERICAN_FOOTBALL, Sport.BASKETBALL, Sport.BASEBALL, Sport.HOCKEY, Sport.FOOTBALL)
