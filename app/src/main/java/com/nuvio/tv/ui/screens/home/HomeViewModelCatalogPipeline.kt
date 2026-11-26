@@ -776,10 +776,13 @@ internal suspend fun HomeViewModel.updateCatalogRowsPipeline() {
             val addedCollectionIds = mutableSetOf<String>()
             collectionsCache.forEach { collection ->
                 val key = "collection_${collection.id}"
+            if (collection.id == com.nuvio.tv.data.local.PlumePicks.COLLECTION_ID) return@forEach
             if (collection.pinToTop && key !in disabledHomeCatalogKeys && addedCollectionIds.add(collection.id)) {
                 add(HomeRow.CollectionRow(collection))
             }
         }
+        // Ry: Plume Picks lists as their own rows, right at the top.
+        plumeRowsCache.forEach { row -> if (row.items.isNotEmpty()) add(HomeRow.Catalog(row)) }
         val liveRowsSnapshot = liveRowsCache.toMap()
         val vodSnapshot = vodRowsCache
         val vodKeysSnapshot = vodRowKeys
@@ -799,7 +802,8 @@ internal suspend fun HomeViewModel.updateCatalogRowsPipeline() {
             }
             val collectionEntry = collectionsSnapshot[key]
             if (collectionEntry != null) {
-                if (!collectionEntry.pinToTop && addedCollectionIds.add(collectionEntry.id)) {
+                if (collectionEntry.id != com.nuvio.tv.data.local.PlumePicks.COLLECTION_ID &&
+                    !collectionEntry.pinToTop && addedCollectionIds.add(collectionEntry.id)) {
                     add(HomeRow.CollectionRow(collectionEntry))
                 }
             } else {

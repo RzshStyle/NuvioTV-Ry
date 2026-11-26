@@ -65,11 +65,11 @@ object PlumePicks {
                     tileShape = PosterShape.LANDSCAPE,
                     sources = listOf(
                         movies(
-                            "New releases · Movies", 5,
+                            "New Movies", 5,
                             TmdbCollectionFilters(withReleaseType = "4|5", releaseDateGte = "{d-60}", releaseDateLte = "{today}")
                         ),
                         series(
-                            "New releases · Series", 10,
+                            "New Series", 10,
                             TmdbCollectionFilters(releaseDateGte = "{d-21}", releaseDateLte = "{today}")
                         ),
                         movies("Popular movies", 150),
@@ -106,6 +106,16 @@ object PlumePicks {
                 )
             )
         )
+    }
+
+    /**
+     * The lists as Home rows (folder id to list): New Movies, New Series and Old school cartoons
+     * first, then the rest in the collection's order.
+     */
+    fun homeSources(): List<Pair<String, TmdbCollectionSource>> {
+        val all = collection.folders.flatMap { f -> f.sources.filterIsInstance<TmdbCollectionSource>().map { f.id to it } }
+        val first = listOf("New Movies", "New Series", "Old school cartoons")
+        return first.mapNotNull { t -> all.firstOrNull { it.second.title == t } } + all.filter { it.second.title !in first }
     }
 
     /** Puts the built-in collection first unless a saved collection already uses its id. */

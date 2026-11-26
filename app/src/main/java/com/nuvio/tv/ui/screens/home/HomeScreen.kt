@@ -187,9 +187,11 @@ fun HomeScreen(
     }
     val onContinueWatchingStartFromBeginningStable = remember(onContinueWatchingStartFromBeginning) { onContinueWatchingStartFromBeginning }
     val onContinueWatchingPlayManuallyStable = remember(onContinueWatchingPlayManually) { onContinueWatchingPlayManually }
-    val onNavigateToCatalogSeeAllStable = remember(onNavigateToCatalogSeeAll, vodActions) {
+    val onNavigateToCatalogSeeAllStable = remember(onNavigateToCatalogSeeAll, onNavigateToFolderDetail, vodActions) {
         { catalogId: String, addonId: String, type: String ->
-            if (!vodActions.seeAll(addonId)) onNavigateToCatalogSeeAll(catalogId, addonId, type)
+            if (addonId == PLUME_ADDON_ID) {
+                onNavigateToFolderDetail(com.nuvio.tv.data.local.PlumePicks.COLLECTION_ID, catalogId.substringBefore('#'))
+            } else if (!vodActions.seeAll(addonId)) onNavigateToCatalogSeeAll(catalogId, addonId, type)
         }
     }
     val onNavigateToFolderDetailStable = remember(onNavigateToFolderDetail) { onNavigateToFolderDetail }

@@ -97,6 +97,7 @@ class HomeViewModel @Inject constructor(
     internal val homeLiveRows: com.nuvio.tv.livetv.home.HomeLiveRows,
     internal val trailerPlayerPool: com.nuvio.tv.core.player.TrailerPlayerPool,
     internal val backgroundTrailerController: com.nuvio.tv.core.player.BackgroundTrailerController,
+    internal val tmdbCollectionSourceResolver: com.nuvio.tv.core.tmdb.TmdbCollectionSourceResolver,
     internal val metaPreviewEnricher: MetaPreviewEnricher = MetaPreviewEnricher(
         tmdbService,
         tmdbMetadataService,
@@ -244,6 +245,8 @@ class HomeViewModel @Inject constructor(
     /** Live TV fork: On Demand rows' titles (by row key), and Live TV/Sports rows with nothing to show. */
     internal var vodRowsCache: Map<String, CatalogRow> = emptyMap()
     internal var vodRowKeys: Set<String> = emptySet()
+    /** Ry: the Plume Picks lists, shown as rows at the top of Home. */
+    internal var plumeRowsCache: List<CatalogRow> = emptyList()
     internal var emptyLiveRowKeys: Set<String> = emptySet()
     internal var homeCatalogOrderKeys: List<String> = emptyList()
     internal var disabledHomeCatalogKeys: Set<String> = emptySet()
@@ -434,6 +437,7 @@ class HomeViewModel @Inject constructor(
             observeBlurUnwatchedEpisodes()
             observeProgressSourceChanges()
             observeCollections()
+            observePlumeRows()
             observeInstalledAddons()
             observeManualAddonRefresh()
 
