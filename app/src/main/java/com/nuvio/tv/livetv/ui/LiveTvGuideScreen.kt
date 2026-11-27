@@ -388,6 +388,10 @@ private fun LiveTvGuideScreenBody(
     val contentFocus = LocalContentFocusRequester.current
 
     var column by remember { mutableStateOf(GuideColumn.CHANNEL) }
+    // Now and Next list (setting on): Right swaps to the full time grid for a while, Back
+    // comes back to the list.
+    var gridView by remember { mutableStateOf(false) }
+    val listMode = settings.guideNowNext && !gridView
     var row by remember { mutableIntStateOf(0) }
     var cursorMs by remember { mutableLongStateOf(System.currentTimeMillis()) }
     var windowStart by remember { mutableLongStateOf(floorSlot(System.currentTimeMillis())) }
@@ -813,6 +817,13 @@ private fun LiveTvGuideScreenBody(
     BackHandler(enabled = !sidebarExpanded) {
         when {
             column == GuideColumn.PROGRAM -> {
+                column = GuideColumn.CHANNEL
+                windowStart = floorSlot(now)
+                cursorMs = now
+            }
+            // Full grid opened from the Now and Next list: Back returns to the list.
+            settings.guideNowNext && gridView && !groupsOpen -> {
+                gridView = false
                 column = GuideColumn.CHANNEL
                 windowStart = floorSlot(now)
                 cursorMs = now
@@ -1347,7 +1358,34 @@ private fun LiveTvGuideScreenBody(
                                 weight = FontWeight.Bold
                             )
                         }
-                        BoxWithConstraints(modifier = Modifier.weight(1f).fillMaxHeight()) {
+                        if (listMode) Row(
+                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // Column heads for the Now and Next list, lined up with its two halves.
+                            LiveText(
+                                "On now",
+                                modifier = Modifier.weight(NOW_NEXT_SPLIT).padding(start = 13.dp),
+                                color = NuvioTheme.colors.TextSecondary,
+                                size = (13f * guideScale(settings)).sp
+                            )
+                            LiveText(
+                                "Up next  ·  ▶ Full guide",
+                                modifier = Modifier.weight(1f - NOW_NEXT_SPLIT).padding(start = 10.dp),
+                                color = NuvioTheme.colors.TextSecondary,
+                                size = (13f * guideScale(settings)).sp
+                            )
+                            LiveText(
+                                formatClock(now, settings.use24HourClock),
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(guideSurface())
+                                    .padding(horizontal = 10.dp, vertical = 3.dp),
+                                color = NuvioTheme.colors.TextPrimary,
+                                size = (14f * guideScale(settings)).sp,
+                                weight = FontWeight.Bold
+                            )
+                        } else BoxWithConstraints(modifier = Modifier.weight(1f).fillMaxHeight()) {
                             val w = maxWidth
                             // The next day starts in view: a tag at midnight ("Tomorrow · Fri").
                             val midnight = nextMidnight(windowStart)
@@ -1586,6 +1624,28 @@ private fun LiveTvGuideScreenBody(
                                         return@onPreviewKeyEvent true
                                     }
                                 }
+                                // Now and Next list: Right opens the full grid on this channel; Left
+                                // opens the groups (no stepping back through shows in the list).
+                                if (listMode && !nameFocus) {
+                                    when (event.key) {
+                                        Key.DirectionRight -> {
+                                            if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount == 0) {
+                                                gridView = true
+                                                resetToNow()
+                                            }
+                                            return@onPreviewKeyEvent true
+                                        }
+                                        Key.DirectionLeft -> {
+                                            if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount == 0) {
+                                                resetToNow()
+                                                if (settings.browseByChannelName) nameFocus = true else focusGroups()
+                                            }
+                                            return@onPreviewKeyEvent true
+                                        }
+                                        Key.MediaFastForward, Key.MediaRewind -> return@onPreviewKeyEvent true
+                                        else -> {}
+                                    }
+                                }
                                 // Left, TiviMate style: a tap on what's on now opens the groups; holding
                                 // Left goes back into earlier shows (catch-up). The tap is acted on
                                 // when the button is let go, so a hold never opens the groups first.
@@ -1751,12 +1811,13 @@ private fun LiveTvGuideScreenBody(
                                             reminderStarts = reminderStartsByChannel[ch.key].orEmpty(),
                                             recordingSpan = recordingUntil[ch.key],
                                             scheduledStarts = scheduledStarts[ch.key].orEmpty(),
-                                            programAreaWidth = programAreaWidth
+                                            programAreaWidth = programAreaWidth,
+                                            nowNext = listMode
                                         ) }
                                     }
                                 }
                                 // "Now" line across the program area (can be hidden in settings).
-                                if (settings.showNowLine && now in windowStart until windowStart + guideWindowMs(settings)) {
+                                if (!listMode && settings.showNowLine && now in windowStart until windowStart + guideWindowMs(settings)) {
                                     BoxWithConstraints(
                                         modifier = Modifier
                                             .fillMaxSize()
@@ -2849,7 +2910,9 @@ private fun GuideRow(
     /** Start times of shows set to record (a red dot too). */
     scheduledStarts: Set<Long> = emptySet(),
     /** Width of the shows part of the row, measured once for the whole guide (null: measure here). */
-    programAreaWidth: Dp? = null
+    programAreaWidth: Dp? = null,
+    /** Now and Next list: one cell with what's on now and next instead of the time grid. */
+    nowNext: Boolean = false
 ) {
     val windowEnd = windowStart + guideWindowMs(settings)
     val cellShape = RoundedCornerShape(liveCorner())
@@ -2993,6 +3056,19 @@ private fun GuideRow(
             }
         }
 
+        if (nowNext) {
+            NowNextCell(
+                channel = channel,
+                programs = programs,
+                settings = settings,
+                now = now,
+                focused = focusColumn != null,
+                reminderStarts = reminderStarts,
+                recordingSpan = recordingSpan,
+                scheduledStarts = scheduledStarts,
+                modifier = Modifier.weight(1f).fillMaxHeight()
+            )
+        } else
         // Program blocks
         ProgramArea(programAreaWidth, Modifier.weight(1f).fillMaxHeight()) { totalW ->
             fun xOf(t: Long): Dp = totalW * ((t.coerceIn(windowStart, windowEnd) - windowStart) / guideWindowMs(settings).toFloat())
@@ -3120,6 +3196,147 @@ private fun GuideRow(
                     focused = true, progress = null, continuesLeft = false
                 )
             }
+        }
+    }
+}
+
+/** How much of a Now and Next cell goes to what's on now (the rest is what's next). */
+private const val NOW_NEXT_SPLIT = 0.62f
+
+/**
+ * One channel in the Now and Next list: what's on now (title, times, time left, a progress line
+ * along the bottom) and, on the right, what's on next. The whole cell lights up on the row you're on.
+ */
+@Composable
+private fun NowNextCell(
+    channel: LiveChannel,
+    programs: List<EpgProgram>,
+    settings: LiveTvSettings,
+    now: Long,
+    focused: Boolean,
+    reminderStarts: Set<Long>,
+    recordingSpan: Pair<Long, Long>?,
+    scheduledStarts: Set<Long>,
+    modifier: Modifier
+) {
+    val current = programs.firstOrNull { now >= it.startMs && now < it.stopMs }
+    val next = programs.firstOrNull { it.startMs >= (current?.stopMs ?: now) }
+    val colors = liveCellColors(focused = focused, idle = guideSurface())
+    val dim = if (focused) colors.text.copy(alpha = 0.72f) else NuvioTheme.colors.TextSecondary
+    val shape = RoundedCornerShape(liveCorner())
+    Box(
+        modifier = modifier
+            .padding(horizontal = 3.dp)
+            .glassTile(
+                colors.background,
+                if (colors.border == Color.Transparent) GuideGlassEdge else colors.border,
+                shape,
+                clipChildren = true
+            )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(Modifier.weight(NOW_NEXT_SPLIT), verticalArrangement = Arrangement.Center) {
+                if (current == null) {
+                    androidx.compose.material3.Text(
+                        text = if (next == null) "No information" else "Nothing listed now",
+                        color = if (focused) colors.text else NuvioTheme.colors.TextTertiary,
+                        fontSize = gsp(14f),
+                        fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                        maxLines = 1
+                    )
+                } else {
+                    val marks = titleMarks(current.title)
+                    val recording = (recordingSpan != null && current.stopMs > recordingSpan.first && current.startMs < recordingSpan.second) ||
+                        current.startMs in scheduledStarts
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (recording) {
+                            Box(Modifier.size(gdp(9f)).clip(RoundedCornerShape(50)).background(LIVE_RED))
+                            Spacer(Modifier.width(6.dp))
+                        }
+                        if (marks.live) {
+                            LiveTag("LIVE", LIVE_RED, Color.White)
+                            Spacer(Modifier.width(6.dp))
+                        }
+                        LiveText(
+                            marks.title,
+                            modifier = Modifier.weight(1f, fill = false),
+                            color = colors.text,
+                            size = gsp(14f),
+                            weight = FontWeight.SemiBold,
+                            marquee = focused
+                        )
+                        if (marks.isNew) {
+                            Spacer(Modifier.width(6.dp))
+                            LiveTag("NEW", NuvioTheme.colors.FocusBackground, NuvioTheme.colors.FocusRing)
+                        }
+                    }
+                    if (settings.showProgramTimes) {
+                        val left = ((current.stopMs - now) / 60_000L).coerceAtLeast(1L)
+                        LiveText(
+                            formatRange(current.startMs, current.stopMs, settings.use24HourClock) + "  ·  " + left + " min left",
+                            color = dim,
+                            size = gsp(12f)
+                        )
+                    }
+                }
+            }
+            // A thin divider between now and next.
+            Box(
+                Modifier
+                    .padding(vertical = 8.dp)
+                    .width(1.dp)
+                    .fillMaxHeight()
+                    .background(if (focused) colors.text.copy(alpha = 0.25f) else GuideGlassEdge)
+            )
+            Column(
+                Modifier.weight(1f - NOW_NEXT_SPLIT).padding(start = 10.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                if (next != null) {
+                    val reminder = next.startMs in reminderStarts
+                    val scheduled = next.startMs in scheduledStarts
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        LiveText(
+                            "Next  " + formatClock(next.startMs, settings.use24HourClock),
+                            color = dim,
+                            size = gsp(12f)
+                        )
+                        if (scheduled) {
+                            Spacer(Modifier.width(6.dp))
+                            Box(Modifier.size(gdp(8f)).clip(RoundedCornerShape(50)).background(LIVE_RED))
+                        }
+                        if (reminder) {
+                            Spacer(Modifier.width(6.dp))
+                            Icon(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Reminder set",
+                                tint = dim,
+                                modifier = Modifier.size(gdp(12f))
+                            )
+                        }
+                    }
+                    LiveText(
+                        titleMarks(next.title).title,
+                        color = if (focused) colors.text else NuvioTheme.colors.TextPrimary.copy(alpha = 0.85f),
+                        size = gsp(13f)
+                    )
+                } else {
+                    LiveText("—", color = dim, size = gsp(13f))
+                }
+            }
+        }
+        // What's on now: how far through it is, as a line along the bottom of the cell.
+        if (current != null) {
+            Box(
+                Modifier
+                    .align(Alignment.BottomStart)
+                    .fillMaxWidth(NOW_NEXT_SPLIT * current.progress(now).coerceIn(0f, 1f))
+                    .height(3.dp)
+                    .background(if (focused) colors.text.copy(alpha = 0.6f) else NuvioTheme.colors.Secondary)
+            )
         }
     }
 }

@@ -159,6 +159,12 @@ internal fun GuideGearPanel(
                 }
                 heading("Layout")
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    toggle(Modifier.weight(1f), "Now and Next list", "Right opens the full grid", settings.guideNowNext) {
+                        onChange { it.copy(guideNowNext = !it.guideNowNext) }
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     toggle(Modifier.weight(1f), "Preview window", "Small live video", settings.showPreview) {
                         onChange { it.copy(showPreview = !it.showPreview) }
                     }
