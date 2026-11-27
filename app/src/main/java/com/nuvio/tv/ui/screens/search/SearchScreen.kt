@@ -1520,8 +1520,13 @@ private fun SearchInputField(
             singleLine = true,
             shape = RoundedCornerShape(NuvioTheme.radii.md),
             placeholder = {
+                // Ry fork: IPTV's search looks through the provider, not your addons.
+                val iptvSearch = com.nuvio.tv.livetv.mode.AppMode.mode.collectAsState().value ==
+                    com.nuvio.tv.livetv.mode.AppMode.Mode.IPTV &&
+                    com.nuvio.tv.livetv.ui.LiveTvSearchBridge.origin.collectAsState().value ==
+                    com.nuvio.tv.livetv.ui.LiveTvSearchBridge.HOME
                 Text(
-                    text = stringResource(R.string.search_placeholder),
+                    text = if (iptvSearch) "Search channels, programmes & On Demand" else stringResource(R.string.search_placeholder),
                     color = NuvioTheme.colors.TextTertiary
                 )
             },

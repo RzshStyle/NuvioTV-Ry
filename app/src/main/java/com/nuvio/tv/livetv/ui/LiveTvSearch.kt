@@ -421,6 +421,9 @@ object LiveTvSearchBridge {
     val pending = kotlinx.coroutines.flow.MutableStateFlow<String?>(null)
 
     fun request(programTitle: String) {
+        // Ry fork: "Find in Nuvio" goes over to Nuvio's half, whose search looks in your addons.
+        origin.value = HOME
+        com.nuvio.tv.livetv.mode.AppMode.set(com.nuvio.tv.livetv.mode.AppMode.Mode.NUVIO)
         pending.value = cleanTitle(programTitle).ifBlank { programTitle.trim() }
     }
 
@@ -582,11 +585,18 @@ fun rememberSearchScope(): SearchScope {
     }
     val settings by prefs.settings.collectAsStateWithLifecycle(initialValue = null)
     val origin by LiveTvSearchBridge.origin.collectAsStateWithLifecycle()
+    // Ry fork: Search from the menu searches the half of the app you're in. Nuvio: your addons'
+    // catalogs only, as in Nuvio. IPTV: channels, programmes and On Demand only.
+    val appMode by com.nuvio.tv.livetv.mode.AppMode.mode.collectAsStateWithLifecycle()
     val s = settings ?: com.nuvio.tv.livetv.model.LiveTvSettings()
     return when (origin) {
         LiveTvSearchBridge.GUIDE -> SearchScope(s.guideSearchLive, s.guideSearchCatalog, s.guideSearchOnDemand)
         LiveTvSearchBridge.ON_DEMAND -> SearchScope(s.onDemandSearchLive, s.onDemandSearchCatalog, s.onDemandSearchOnDemand)
-        else -> SearchScope(live = true, catalog = true, onDemand = true)
+        else -> if (appMode == com.nuvio.tv.livetv.mode.AppMode.Mode.IPTV) {
+            SearchScope(live = true, catalog = false, onDemand = true)
+        } else {
+            SearchScope(live = false, catalog = true, onDemand = false)
+        }
     }.let { if (!it.live && !it.catalog && !it.onDemand) SearchScope(true, true, true) else it }
         // Live TV or On Demand switched off (Settings → Menu & Features): none of their results.
         .let { it.copy(live = it.live && s.showInSidebar, onDemand = it.onDemand && s.onDemandEnabled) }

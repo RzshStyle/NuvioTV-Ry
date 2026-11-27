@@ -82,6 +82,8 @@ val LocalLiveTvHomeActions = compositionLocalOf { LiveTvHomeActions() }
 fun rememberLiveTvHomeRowPosition(): Boolean? {
     // Collections reuse the home screen's layouts: the Live TV row belongs on Home only.
     if (!LocalLiveTvHomeActions.current.onHome) return null
+    // Ry fork: Home is Nuvio's; Live TV is in the IPTV half.
+    if (!com.nuvio.tv.livetv.mode.AppModeSplit.HOME_KEEPS_IPTV_ROWS) return null
     val context = LocalContext.current
     val prefs = remember {
         dagger.hilt.android.EntryPointAccessors.fromApplication(

@@ -73,7 +73,9 @@ internal fun HomeViewModel.observeLiveRowsPipeline() {
     viewModelScope.launch {
         kotlinx.coroutines.flow.combine(
             homeLiveRows.shownRows, homeLiveRows.names, homeLiveRows.emptyRowIds, homeLiveRows.vodRows
-        ) { rows, names, empty, vod ->
+        ) { allRows, names, empty, vod ->
+            // Ry fork: Home is Nuvio's. Live TV, Sports and On Demand rows stay in the IPTV half.
+            val rows = if (com.nuvio.tv.livetv.mode.AppModeSplit.HOME_KEEPS_IPTV_ROWS) allRows else emptyList()
             LiveRowsInput(
                 rows = rows.map { it.key to (names[it.id] ?: it.title) },
                 vodKeys = rows.filter { it.kind == com.nuvio.tv.livetv.home.HomeLiveRow.KIND_VOD }.mapTo(HashSet()) { it.key },

@@ -5,7 +5,7 @@ name: Ry Build (TV)
 # (nuvio.tv/docs/server-api) so Nuvio account sign-in works. Optional secrets add extras.
 on:
   push:
-    branches: ['ry/plus']
+    branches: ['ry/plus', 'ry/modes']
   workflow_dispatch:
 
 permissions:
@@ -91,4 +91,4 @@ jobs:
           gh release delete plus-tv-test --yes --cleanup-tag 2>/dev/null || true
           gh release create plus-tv-test NuvioPlus-TV.apk --prerelease --target "$GITHUB_SHA" \
             --title "Nuvio + IPTV (Ry) TV build" \
-            --notes "Built from ry/plus at ${GITHUB_SHA::7}. Download NuvioPlus-TV.apk and install it on your TV."
+            --notes "Built from ${GITHUB_REF_NAME} at ${GITHUB_SHA::7}. Download NuvioPlus-TV.apk and install it on your TV."

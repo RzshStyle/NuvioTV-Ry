@@ -52,6 +52,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LiveTv
+import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.FiberManualRecord
@@ -277,7 +278,9 @@ data class DrawerItem(
     /** A thin line above this item (it starts a new part of the menu). */
     val sectionStart: Boolean = false,
     /** Kept at the bottom of the menu, below the rest (Settings). */
-    val pinnedBottom: Boolean = false
+    val pinnedBottom: Boolean = false,
+    /** Ry fork: the Nuvio / IPTV switch. Picking it opens this page of the other half. */
+    val switchTo: String? = null
 )
 
 /** Live TV fork: the menu entry that holds Guide, On Demand and Recordings. */
@@ -1008,7 +1011,10 @@ open class MainActivity : ComponentActivity() {
                     LaunchedEffect(actualRoute) {
                         optimisticRoute = null
                         ambientIdleController.onInteraction()
+                        // Ry fork: Nuvio or IPTV follows the page you're on.
+                        com.nuvio.tv.livetv.mode.AppMode.follow(actualRoute)
                     }
+                    val appMode by com.nuvio.tv.livetv.mode.AppMode.mode.collectAsState()
 
                     // The player and home are routes inside this activity, so leaving the
                     // player or returning home never reaches onResume. Ask for the same
@@ -1312,7 +1318,8 @@ open class MainActivity : ComponentActivity() {
                         homeHidden,
                         sideMenuOrder,
                         sideMenuHidden,
-                        sideMenuLine
+                        sideMenuLine,
+                        appMode
                     ) {
                         val pages = com.nuvio.tv.livetv.calendar.SideMenuPages
                         val hiddenPages = pages.hidden(sideMenuHidden)
@@ -1331,14 +1338,46 @@ open class MainActivity : ComponentActivity() {
                             pages.ON_DEMAND -> if (onDemandInSidebar) DrawerItem(route = Screen.OnDemand.route, label = "On Demand", icon = Icons.Default.VideoLibrary) else null
                             else -> null
                         }
+                        // Ry fork: the menu shows one half of the app at a time, Nuvio or IPTV,
+                        // with the switch to the other half at the top.
+                        val mode = com.nuvio.tv.livetv.mode.AppMode
+                        val iptvMode = appMode == com.nuvio.tv.livetv.mode.AppMode.Mode.IPTV
+                        val modePages = if (iptvMode) mode.IPTV_PAGES else mode.NUVIO_PAGES
+                        val nuvioLanding = when {
+                            !homeHidden -> Screen.Home.route
+                            discoverLocation == DiscoverLocation.IN_SIDEBAR -> Screen.Discover.route
+                            else -> Screen.Library.route
+                        }
+                        val iptvLanding = when {
+                            liveTvInSidebar -> Screen.LiveTv.route
+                            sportsInSidebar -> Screen.Sports.route
+                            else -> Screen.OnDemand.route
+                        }
                         buildList {
-                            var lineDone = false
+                            add(
+                                if (iptvMode) DrawerItem(
+                                    route = mode.SWITCH_ROUTE,
+                                    label = "Switch to Nuvio",
+                                    icon = Icons.Default.Movie,
+                                    pillLabel = "IPTV",
+                                    switchTo = nuvioLanding
+                                ) else DrawerItem(
+                                    route = mode.SWITCH_ROUTE,
+                                    label = "Switch to IPTV",
+                                    icon = Icons.Default.LiveTv,
+                                    pillLabel = "Nuvio",
+                                    switchTo = iptvLanding
+                                )
+                            )
+                            var first = true
                             pages.order(sideMenuOrder).forEach { id ->
-                                val item = page(id) ?: return@forEach
-                                // The thin line goes above the first of Live TV's pages (not when it's first).
-                                val line = sideMenuLine && !lineDone && id in pages.LIVE_FAMILY && isNotEmpty()
-                                if (id in pages.LIVE_FAMILY) lineDone = true
-                                add(if (line) item.copy(sectionStart = true) else item)
+                                if (id !in modePages) return@forEach
+                                val base = page(id) ?: return@forEach
+                                // IPTV's Search looks through channels, programmes and On Demand.
+                                val item = if (iptvMode && id == pages.SEARCH) base.copy(label = "Search IPTV") else base
+                                // A thin line between the switch and this half's pages.
+                                add(if (first) item.copy(sectionStart = true) else item)
+                                first = false
                             }
                             add(
                                 DrawerItem(
@@ -1355,7 +1394,7 @@ open class MainActivity : ComponentActivity() {
                     val selectedDrawerRoute = drawerItems.firstOrNull { item ->
                         menuRoute == item.route || menuRoute?.startsWith("${item.route}/") == true
                     }?.route
-                    val selectedDrawerItem = drawerItems.firstOrNull { it.route == selectedDrawerRoute } ?: drawerItems.first()
+                    val selectedDrawerItem = drawerItems.firstOrNull { it.route == selectedDrawerRoute } ?: drawerItems.firstOrNull { it.switchTo == null } ?: drawerItems.first()
 
                     val confirmExitEnabled by profileManager.confirmExitEnabled.collectAsState()
                     var backPressedOnce by remember { mutableStateOf(false) }
@@ -1956,14 +1995,16 @@ private fun LegacySidebarScaffold(
                                     trailingIcon = null,
                                     onClick = {
                                         keyboardController?.hide()
-                                        onNavigate(item.route)
+                                        // Ry fork: the Nuvio / IPTV switch opens the other half.
+                                        val target = item.switchTo?.also { switchAppMode(it) } ?: item.route
+                                        onNavigate(target)
                                         navigateToDrawerRoute(
                                             navController = navController,
                                             currentRoute = currentRoute,
-                                            targetRoute = item.route
+                                            targetRoute = target
                                         )
                                         drawerState.setValue(DrawerValue.Closed)
-                                        pendingContentFocusTransfer = currentRoute == item.route
+                                        pendingContentFocusTransfer = currentRoute == target
                                     },
                                     modifier = Modifier.focusRequester(
                                         drawerItemFocusRequesters.getValue(item.route)
@@ -2694,7 +2735,10 @@ private fun ModernSidebarScaffold(
                         panelShape = panelShape,
                         drawerItemFocusRequesters = drawerItemFocusRequesters,
                         onDrawerItemFocused = { focusedDrawerIndex = it },
-                        onDrawerItemClick = click@{ targetRoute ->
+                        onDrawerItemClick = click@{ clickedRoute ->
+                            // Ry fork: the Nuvio / IPTV switch opens the other half.
+                            val targetRoute = drawerItems.firstOrNull { it.route == clickedRoute }?.switchTo
+                                ?.also { switchAppMode(it) } ?: clickedRoute
                             // Live TV fork: Live TV opens its list; its "‹ Live TV" row goes back.
                             if (targetRoute == LIVE_TV_GROUP_ROUTE) {
                                 if (drawerItems.none { it.isGroup && it.groupOpen }) pendingLiveTvListFocus = true
@@ -2866,13 +2910,19 @@ private fun CollapsedSidebarPill(
     }
 }
 
+/** Ry fork: switching to the other half of the app, landing on [landingRoute]. */
+private fun switchAppMode(landingRoute: String) {
+    com.nuvio.tv.livetv.mode.AppMode.modeForRoute(landingRoute)?.let { com.nuvio.tv.livetv.mode.AppMode.set(it) }
+}
+
 private fun navigateToDrawerRoute(
     navController: NavHostController,
     currentRoute: String?,
     targetRoute: String
 ) {
-    // Live TV fork: Search picked from the side menu always shows everything, even when the
-    // search screen on top was opened from the guide or On Demand (their limited scope).
+    // Search picked from the side menu searches the half of the app you're in (Nuvio's
+    // catalogs, or IPTV's channels and On Demand), even when the search screen on top was
+    // opened from the guide or On Demand (their own scope).
     if (targetRoute == Screen.Search.route) {
         com.nuvio.tv.livetv.ui.LiveTvSearchBridge.origin.value = com.nuvio.tv.livetv.ui.LiveTvSearchBridge.HOME
     }
