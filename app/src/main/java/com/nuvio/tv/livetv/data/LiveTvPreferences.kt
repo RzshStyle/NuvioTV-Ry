@@ -128,6 +128,7 @@ class LiveTvPreferences @Inject constructor(
         val resumeInPreview = booleanPreferencesKey("resume_in_preview")
         val showGroupCounts = booleanPreferencesKey("show_group_counts")
         val smallHeader = booleanPreferencesKey("small_header")
+        val guideNowNext = booleanPreferencesKey("guide_now_next")
         val aspectMode = stringPreferencesKey("aspect_mode")
         val sequentialNumbers = booleanPreferencesKey("sequential_numbers")
         val overlayMode = booleanPreferencesKey("overlay_mode")
@@ -639,6 +640,7 @@ class LiveTvPreferences @Inject constructor(
             resumeLastInPreview = p[Keys.resumeInPreview] ?: d.resumeLastInPreview,
             showGroupCounts = p[Keys.showGroupCounts] ?: d.showGroupCounts,
             smallHeader = p[Keys.smallHeader] ?: d.smallHeader,
+            guideNowNext = p[Keys.guideNowNext] ?: d.guideNowNext,
             aspectMode = p[Keys.aspectMode] ?: d.aspectMode,
             sequentialNumbers = p[Keys.sequentialNumbers] ?: d.sequentialNumbers,
             overlayMode = p[Keys.overlayMode] ?: d.overlayMode,
@@ -990,6 +992,7 @@ class LiveTvPreferences @Inject constructor(
         p[Keys.resumeInPreview] = s.resumeLastInPreview
         p[Keys.showGroupCounts] = s.showGroupCounts
         p[Keys.smallHeader] = s.smallHeader
+        p[Keys.guideNowNext] = s.guideNowNext
         p[Keys.aspectMode] = s.aspectMode
         p[Keys.sequentialNumbers] = s.sequentialNumbers
         p[Keys.overlayMode] = s.overlayMode

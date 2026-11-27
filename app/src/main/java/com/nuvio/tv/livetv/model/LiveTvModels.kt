@@ -502,6 +502,12 @@ data class LiveTvSettings(
     val showGroupCounts: Boolean = true,
     /** Smaller info panel and preview at the top of the guide, so more channels fit. */
     val smallHeader: Boolean = false,
+    /**
+     * Guide layout. On: a Now and Next list (each channel shows what's on now with its progress,
+     * and what's on next); Right opens the full time grid and Back returns to the list.
+     * Off: the full time grid only.
+     */
+    val guideNowNext: Boolean = true,
     /** Full-screen picture size, using Nuvio's own modes (Fit, Crop, Stretch, Cinema Zoom, …). */
     val aspectMode: String = "ORIGINAL",
     /** Number channels 1, 2, 3… in the order they appear in each group (TiviMate's override). */

@@ -1,0 +1,93 @@
+name: Ry Guide Build (TV)
+
+# Test build for guide work on ry/guide-* (and this thread's claude/ branch). Publishes the public release "guide-tv-test"
+# (separate from plus-tv-test, so it never replaces or cancels the main ry/plus build).
+on:
+  push:
+    branches: ['ry/guide-*', 'claude/project-thread-iykzqe']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ry-guide-build-tv
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.3"
+          cache-dependency-path: vpn-android/native/go.sum
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Write app keys
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_CLIENT_SECRET: ${{ secrets.TRAKT_CLIENT_SECRET }}
+        run: |
+          : > keys.properties
+          add() { if [ -n "$2" ]; then echo "$1=$2" >> keys.properties; fi; }
+          add NUVIO_SUPABASE_URL "https://api.nuvio.tv"
+          add NUVIO_SUPABASE_ANON_KEY "sb_publishable_1Clq8rlTVACkdcZuqr6_AD__xUUC_EN"
+          add TMDB_API_KEY "$TMDB_API_KEY"
+          add TRAKT_CLIENT_ID "$TRAKT_CLIENT_ID"
+          add TRAKT_CLIENT_SECRET "$TRAKT_CLIENT_SECRET"
+          add INTRODB_API_URL "https://api.introdb.app/"
+          cp keys.properties local.properties
+          cp keys.properties local.dev.properties
+          rm keys.properties
+          echo "Keys set:"; cut -d= -f1 local.properties
+
+      - name: Signing (the project's public fork keystore)
+        run: |
+          cp keystore/livetv-fork.jks "$RUNNER_TEMP/key.jks"
+          {
+            echo "NUVIO_RELEASE_STORE_FILE=$RUNNER_TEMP/key.jks"
+            echo "NUVIO_RELEASE_KEY_ALIAS=livetv"
+            echo "NUVIO_RELEASE_KEY_PASSWORD=livetvfork"
+            echo "NUVIO_RELEASE_STORE_PASSWORD=livetvfork"
+          } >> "$GITHUB_ENV"
+
+      - name: Build APK
+        run: |
+          set -o pipefail
+          chmod +x gradlew
+          ./gradlew :app:assembleFullRelease --stacktrace --console=plain \
+            -PlivetvBuildNumber=${{ github.run_number }} \
+            -PlivetvVersionName=ry.${{ github.run_number }} 2>&1 | tee build.log
+
+      - name: Publish build log to ry/ci-logs-guide
+        if: always()
+        run: |
+          mkdir -p /tmp/logs && tail -n 400 build.log > /tmp/logs/tv-build-tail.log 2>/dev/null || true
+          grep -nE '^e: |error:|FAILURE|What went wrong' -A3 build.log | head -200 > /tmp/logs/tv-errors.log 2>/dev/null || true
+          cd /tmp/logs
+          git init -q && git checkout -q -b ry/ci-logs-guide
+          git -c user.name=ci -c user.email=ci@localhost add -A && git -c user.name=ci -c user.email=ci@localhost commit -qm "logs ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" ry/ci-logs-guide
+
+      - name: Publish APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          src=$(find app/build/outputs/apk/full/release -name "*universal*.apk" | head -n 1)
+          [ -n "$src" ] || src=$(find app/build/outputs/apk/full/release -name "*.apk" | head -n 1)
+          ls -la app/build/outputs/apk/full/release
+          cp "$src" NuvioPlus-TV.apk
+          gh release delete guide-tv-test --yes --cleanup-tag 2>/dev/null || true
+          gh release create guide-tv-test NuvioPlus-TV.apk --prerelease --target "$GITHUB_SHA" \
+            --title "Nuvio + IPTV (Ry) TV build, new guide test" \
+            --notes "Built from ${GITHUB_REF_NAME} at ${GITHUB_SHA::7}. Download NuvioPlus-TV.apk and install it on your TV."
