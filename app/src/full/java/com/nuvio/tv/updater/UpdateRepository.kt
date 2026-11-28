@@ -27,6 +27,10 @@ class UpdateRepository @Inject constructor(
         if (BuildConfig.NUVIO_CHANNEL == "test") {
             return runCatching { latestTestBuild(channel) }
         }
+        // Ry builds: the fixed "plus-tv-test" release carries a version file next to the APK.
+        if (BuildConfig.RY_UPDATE_URL.isNotBlank()) {
+            return runCatching { latestRyBuild(channel) }
+        }
         return runCatching {
             val owner = BuildConfig.GITHUB_OWNER
             val repo = BuildConfig.GITHUB_REPO
@@ -70,6 +74,43 @@ class UpdateRepository @Inject constructor(
                 assetUrl = asset.browserDownloadUrl,
                 assetSizeBytes = asset.size,
                 assetSha256 = Checksum.fromDigest(asset.digest)
+            )
+        }
+    }
+
+    /**
+     * The newest Ry build, from the version file the build workflow publishes next to the APK:
+     * {"versionName": "1.2.0-ry.57+beta.4", "versionCode": 108357, "notes": "...",
+     *  "apk": {"name": "NuvioPlus-TV.apk", "url": "https://github.com/...", "size": 123, "sha256": "..."}}
+     * The version name is compared like any release tag, so the rest of the updater works unchanged.
+     */
+    private suspend fun latestRyBuild(channel: UpdateChannel): AppUpdate = withContext(Dispatchers.IO) {
+        val request = Request.Builder()
+            .url(BuildConfig.RY_UPDATE_URL)
+            .header("Cache-Control", "no-cache")
+            .build()
+        okHttpClient.newCall(request).execute().use { response ->
+            // 404: the release is being replaced by a new build right now, or there is none yet.
+            if (response.code == 404) throw NoEligibleUpdateException(channel)
+            if (!response.isSuccessful) error("Couldn't check for updates (${response.code})")
+            val json = JSONObject(response.body?.string() ?: error("Empty update response"))
+            val versionName = json.optString("versionName")
+            if (VersionUtils.parse(versionName) == null) error("Update has no usable version")
+            // An older build (a lower version code) is never offered, even if its name sorts higher.
+            val versionCode = json.optLong("versionCode", -1L)
+            if (versionCode in 0..BuildConfig.VERSION_CODE.toLong()) throw NoEligibleUpdateException(channel)
+            val apk = json.getJSONObject("apk")
+            val url = apk.optString("url").takeIf { it.startsWith("https://github.com/") }
+                ?: error("Update has no download address")
+            AppUpdate(
+                tag = versionName,
+                title = "Nuvio + IPTV $versionName",
+                notes = json.optString("notes"),
+                releaseUrl = json.optString("releaseUrl").takeIf { it.startsWith("https://") },
+                assetName = apk.optString("name").ifBlank { "NuvioPlus-TV.apk" },
+                assetUrl = url,
+                assetSizeBytes = apk.optLong("size", -1L).takeIf { it > 0 },
+                assetSha256 = Checksum.fromDigest(apk.optString("sha256"))
             )
         }
     }

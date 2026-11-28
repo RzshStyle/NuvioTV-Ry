@@ -1424,6 +1424,19 @@ open class MainActivity : ComponentActivity() {
                         showBanner = updateState.showBanner && currentRoute?.startsWith("player/") != true &&
                             currentRoute != Screen.LiveTvMultiview.route && currentRoute != Screen.SportsMultiview.route
                     )
+                    // Ry builds: once an update has downloaded, open the installer by itself, but only while
+                    // nothing is playing (it waits for the player, full-screen guide or multiview to close).
+                    val liveFullscreenForUpdate by com.nuvio.tv.livetv.ui.LiveTvFullscreen.active.collectAsState()
+                    val watchingForUpdate = currentRoute?.startsWith("player/") == true ||
+                        currentRoute == Screen.LiveTvPlayer.route || currentRoute == Screen.LiveTvMultiview.route ||
+                        currentRoute == Screen.SportsMultiview.route || liveFullscreenForUpdate
+                    LaunchedEffect(updateState.downloadedApkPath, updateState.update?.tag, watchingForUpdate) {
+                        if (!watchingForUpdate && updateState.downloadedApkPath != null) {
+                            // A moment for the screen to settle after launch or after leaving the player.
+                            delay(1500L)
+                            updateViewModel.autoInstallIfReady()
+                        }
+                    }
                     // Live TV fork: the Live TV row on Home lets Up through to the banner while it shows.
                     LaunchedEffect(updateBannerState.showBanner, updateBannerState.update != null) {
                         com.nuvio.tv.livetv.home.LiveTvHomeReveal.updateBannerShown.value =
