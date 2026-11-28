@@ -207,7 +207,12 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
             .diskCache {
                 DiskCache.Builder()
                     .directory(cacheDir.resolve("image_cache").toOkioPath())
-                    .maxSizeBytes(200L * 1024 * 1024)
+                    // Up to 200 MB, but no more than 2% of the storage: on an 8 GB stick
+                    // (Chromecast with Google TV) that's about 90 MB of posters and logos.
+                    .maxSizeBytes(
+                        (runCatching { cacheDir.totalSpace }.getOrDefault(0L) / 50)
+                            .coerceIn(64L * 1024 * 1024, 200L * 1024 * 1024)
+                    )
                     .build()
             }
             .crossfade(false)

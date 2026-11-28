@@ -77,7 +77,7 @@ private fun getBadgeImageLoader(context: android.content.Context): ImageLoader {
         .diskCache {
             DiskCache.Builder()
                 .directory(context.applicationContext.cacheDir.resolve("badge_cache").toOkioPath())
-                .maxSizeBytes(50L * 1024 * 1024)
+                .maxSizeBytes(20L * 1024 * 1024)
                 .build()
         }
         .precision(Precision.INEXACT)
