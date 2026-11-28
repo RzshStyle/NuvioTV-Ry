@@ -99,7 +99,10 @@ class UpdateRepository @Inject constructor(
             // An older build (a lower version code) is never offered, even if its name sorts higher.
             val versionCode = json.optLong("versionCode", -1L)
             if (versionCode in 0..BuildConfig.VERSION_CODE.toLong()) throw NoEligibleUpdateException(channel)
-            val apk = json.getJSONObject("apk")
+            // 32-bit-only devices (Chromecast with Google TV and many sticks) take the smaller
+            // 32-bit APK when the build has one; everything else the all-in-one APK.
+            val only32Bit = android.os.Build.SUPPORTED_64_BIT_ABIS.isNullOrEmpty()
+            val apk = json.optJSONObject("apk32")?.takeIf { only32Bit } ?: json.getJSONObject("apk")
             val url = apk.optString("url").takeIf { it.startsWith("https://github.com/") }
                 ?: error("Update has no download address")
             AppUpdate(

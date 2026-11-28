@@ -100,6 +100,9 @@ jobs:
           [ -n "$src" ] || src=$(find app/build/outputs/apk/full/release -name "*.apk" | head -n 1)
           ls -la app/build/outputs/apk/full/release
           cp "$src" NuvioPlus-TV.apk
+          # A smaller 32-bit ARM APK for sticks that only run 32-bit apps (Chromecast with Google TV).
+          src32=$(find app/build/outputs/apk/full/release -name "*armeabi-v7a*.apk" | head -n 1)
+          [ -n "$src32" ] && cp "$src32" NuvioPlus-TV-arm32.apk
           # The version file the app checks on launch to find this build (see UpdateRepository).
           # Same formula as app/build.gradle.kts: Nuvio's code x 100 + the run number.
           code=$(( $(grep -m1 -E '^\s*versionCode = [0-9]+' app/build.gradle.kts | grep -oE '[0-9]+') * 100 + ${{ github.run_number }} ))
@@ -111,8 +114,14 @@ jobs:
             --argjson size "$(stat -c%s NuvioPlus-TV.apk)" \
             '{versionName: $name, versionCode: $code, notes: $notes, releaseUrl: $release,
               apk: {name: "NuvioPlus-TV.apk", url: $url, size: $size, sha256: $sha}}' > version.json
+          if [ -f NuvioPlus-TV-arm32.apk ]; then
+            jq --arg url "https://github.com/${GITHUB_REPOSITORY}/releases/download/plus-tv-test/NuvioPlus-TV-arm32.apk" \
+              --arg sha "$(sha256sum NuvioPlus-TV-arm32.apk | cut -d' ' -f1)" \
+              --argjson size "$(stat -c%s NuvioPlus-TV-arm32.apk)" \
+              '. + {apk32: {name: "NuvioPlus-TV-arm32.apk", url: $url, size: $size, sha256: $sha}}' version.json > v.tmp && mv v.tmp version.json
+          fi
           cat version.json
           gh release delete plus-tv-test --yes --cleanup-tag 2>/dev/null || true
-          gh release create plus-tv-test NuvioPlus-TV.apk version.json --prerelease --target "$GITHUB_SHA" \
+          gh release create plus-tv-test NuvioPlus-TV.apk $( [ -f NuvioPlus-TV-arm32.apk ] && echo NuvioPlus-TV-arm32.apk ) version.json --prerelease --target "$GITHUB_SHA" \
             --title "Nuvio + IPTV (Ry) TV build $RY_VERSION_NAME" \
             --notes "Built from ${GITHUB_REF_NAME} at ${GITHUB_SHA::7}. Download NuvioPlus-TV.apk and install it on your TV."
