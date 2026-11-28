@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -211,7 +212,10 @@ private fun ChannelsList(ev: SportsEvent, ms: List<ChannelMatch>, viewModel: Spo
                 OneLine(m.channel.name, Color.White, 12.sp, FontWeight.ExtraBold, Modifier.fillMaxWidth())
                 line?.let { GuideLineText(it, 9.sp) }
             }
-            m.quality?.let { LiveText(it, color = NuvioTheme.colors.Secondary, size = 9.sp, weight = FontWeight.Black) }
+            Column(horizontalAlignment = Alignment.End) {
+                m.pictureLabel?.let { LiveText(it, color = NuvioTheme.colors.Secondary, size = 9.sp, weight = FontWeight.Black) }
+                m.channel.sourceName.takeIf { it.isNotBlank() }?.let { OneLine(it, SportsLook.Dim, 9.sp, modifier = Modifier.widthIn(max = 110.dp)) }
+            }
         }
     }
 }

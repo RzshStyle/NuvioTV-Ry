@@ -1480,7 +1480,7 @@ private fun NowPlayingPanel(
             LiveText("WATCHING ON", color = SportsLook.Dim, size = 9.sp, weight = FontWeight.Black)
             Spacer(Modifier.height(4.dp))
             OneLine(match?.channel?.name.orEmpty(), Color.White, 11.sp, FontWeight.ExtraBold)
-            match?.quality?.let { LiveText(it, color = NuvioTheme.colors.Secondary, size = 9.sp, weight = FontWeight.Black) }
+            match?.pictureLabel?.let { LiveText(it, color = NuvioTheme.colors.Secondary, size = 9.sp, weight = FontWeight.Black) }
             matches[ev.id]?.firstOrNull { it.channel.key != playingKey }?.let {
                 OneLine("Also on ${it.channel.name}", SportsLook.Dim, 9.sp)
             }
@@ -1702,7 +1702,11 @@ private fun GamePage(
     val noneInRegion = regionChoice.isNotBlank() && matches.isNotEmpty() && inRegion.isEmpty()
     val shown = if (regionChoice.isBlank() || otherRegions || noneInRegion) matches else inRegion
     // One row per channel: its FHD/HD/SD copies folded in (the one playing leads).
-    val shownRows = remember(shown, playingKey) { SportsMatcher.groupCopies(shown, playingKey) }
+    // Picture order (Sports settings): every stream its own row, so 4K, then 1080p… reads top down.
+    val byPicture = settings.sortByPicture
+    val shownRows = remember(shown, playingKey, byPicture) {
+        if (byPicture) shown.map { listOf(it) } else SportsMatcher.groupCopies(shown, playingKey)
+    }
     val elsewhere = remember(matches, inRegion) {
         if (inRegion === matches) 0 else {
             val keep = inRegion.mapTo(HashSet()) { it.channel.key }
@@ -1804,7 +1808,7 @@ private fun GamePage(
                     verticalArrangement = Arrangement.spacedBy(7.dp),
                     contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp)
                 ) {
-                    itemsIndexed(shownRows, key = { _, g -> SportsMatcher.copyKey(g[0].channel).ifBlank { g[0].channel.key } }) { i, g ->
+                    itemsIndexed(shownRows, key = { _, g -> if (byPicture) g[0].channel.key else SportsMatcher.copyKey(g[0].channel).ifBlank { g[0].channel.key } }) { i, g ->
                         val m = g[0]
                         SportsChannelRow(
                             m = m,

@@ -399,6 +399,11 @@ android.defaultConfig.buildConfigField(
     "String", "NUVIO_BASE_VERSION", "\"${android.defaultConfig.versionName ?: ""}\""
 )
 
+// Ry builds update themselves from a small version file published next to the APK on the fixed
+// "plus-tv-test" release (-PryUpdateUrl=...). Empty means the normal GitHub release check.
+val ryUpdateUrl = (findProperty("ryUpdateUrl") as String?)?.trim().orEmpty()
+android.defaultConfig.buildConfigField("String", "RY_UPDATE_URL", "\"$ryUpdateUrl\"")
+
 val livetvBuildNumber = (findProperty("livetvBuildNumber") as String?)?.toIntOrNull() ?: 0
 android.defaultConfig.versionCode = (android.defaultConfig.versionCode ?: 1) * 100 + livetvBuildNumber
 (findProperty("livetvVersionName") as String?)?.takeIf { it.isNotBlank() }?.let {

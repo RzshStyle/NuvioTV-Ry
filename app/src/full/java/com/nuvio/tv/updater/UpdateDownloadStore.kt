@@ -69,7 +69,15 @@ class UpdateDownloadStore @Inject constructor(
     }
 
     suspend fun clearIfInstalled() {
-        val (tag, _) = updatePreferences.downloadedUpdate.first() ?: return
+        // No record of a download means any file left in the folder is a leftover: free the space
+        // (small TV sticks are short of it).
+        // Skipped while a download is under way, since its file has no record until it completes.
+        val (tag, _) = updatePreferences.downloadedUpdate.first() ?: run {
+            if (downloadMutex.tryLock()) {
+                try { updatesDir.deleteRecursively() } finally { downloadMutex.unlock() }
+            }
+            return
+        }
         if (!VersionUtils.isRemoteNewer(tag, BuildConfig.VERSION_NAME)) clear()
     }
 }

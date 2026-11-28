@@ -64,6 +64,10 @@ class UpdateViewModel @Inject constructor(
     val uiState: StateFlow<UpdateUiState> = _uiState.asStateFlow()
     private var updateCheckJob: Job? = null
 
+    /** Ry builds update themselves: download on launch, then open the installer (see [autoInstallIfReady]). */
+    private val autoUpdates = BuildConfig.RY_UPDATE_URL.isNotBlank()
+    private val autoInstallPromptedTags = mutableSetOf<String>()
+
     init {
         viewModelScope.launch {
             val enabled = updatePreferences.updateBannerEnabled.first()
@@ -119,7 +123,11 @@ class UpdateViewModel @Inject constructor(
                     val installedUpdate = _uiState.value.installedUpdate?.let { installed ->
                         if (installed.tag == update.tag) update else installed
                     }
-                    if (remoteNewer && downloadedFile == null && update.tag != dismissedTag && !BuildConfig.IS_DEBUG_BUILD) {
+                    val wantsDownload = remoteNewer && downloadedFile == null && update.tag != dismissedTag &&
+                        !BuildConfig.IS_DEBUG_BUILD
+                    // Ry builds download right away in the app (the banner shows the progress) and then
+                    // open the installer by themselves; others leave the download to the background job.
+                    if (wantsDownload && !autoUpdates) {
                         UpdateJobService.scheduleCheckNow(context, manual = force)
                     }
                     val shouldShow = UpdateBannerPolicy.shouldShow(
@@ -150,6 +158,7 @@ class UpdateViewModel @Inject constructor(
                             }
                         )
                     }
+                    if (wantsDownload && autoUpdates) startDownload(installWhenDone = false)
                 }
                 .onFailure { error ->
                     _uiState.update {
@@ -259,8 +268,26 @@ class UpdateViewModel @Inject constructor(
         }
     }
 
-    fun downloadUpdate() {
+    fun downloadUpdate() = startDownload(installWhenDone = true)
+
+    /**
+     * Ry builds: opens the installer for a downloaded update once per release and app run, without
+     * the user pressing Install. Called by the app when nothing is playing; Android still asks the
+     * user to confirm the install.
+     */
+    fun autoInstallIfReady() {
+        if (!autoUpdates) return
+        val state = _uiState.value
+        val tag = state.update?.tag ?: return
+        if (!state.isUpdateAvailable || state.isDownloading || state.downloadedApkPath == null) return
+        if (!autoInstallPromptedTags.add(tag)) return
+        Log.d(TAG, "Opening the installer for $tag")
+        installUpdateOrRequestPermission()
+    }
+
+    private fun startDownload(installWhenDone: Boolean) {
         val update = _uiState.value.update ?: return
+        if (_uiState.value.isDownloading) return
 
         viewModelScope.launch {
             _uiState.update {
@@ -292,7 +319,7 @@ class UpdateViewModel @Inject constructor(
                             errorMessage = null
                         )
                     }
-                    installUpdateOrRequestPermission()
+                    if (installWhenDone) installUpdateOrRequestPermission()
                 }
                 .onFailure { error ->
                     _uiState.update {
