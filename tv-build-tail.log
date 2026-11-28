@@ -1,0 +1,400 @@
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsScreen.kt:646:23 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Rect'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsScreen.kt:660:30 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Rect'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsScreen.kt:660:44 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Rect'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsScreen.kt:911:40 'var enter: (FocusDirection) -> FocusRequester' is deprecated. Use onEnter instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsTables.kt:188:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsTables.kt:215:43 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsTables.kt:350:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sports/SportsVideos.kt:67:26 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/stalker/StalkerGateway.kt:237:42 Elvis operator (?:) always returns the left operand of non-nullable type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/stalker/StalkerGateway.kt:258:38 Elvis operator (?:) always returns the left operand of non-nullable type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/stalker/StalkerMimeProbe.kt:106:34 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvCloudSync.kt:85:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvCloudSync.kt:137:35 This declaration is in a preview state and can be changed in a backwards-incompatible manner with a best-effort migration. Its usage should be marked with '@kotlinx.coroutines.FlowPreview' or '@OptIn(kotlinx.coroutines.FlowPreview::class)' if you accept the drawback of relying on preview API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvCloudSync.kt:237:63 Unnecessary safe call on a non-null receiver of type 'JSONObject'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvCloudSync.kt:593:73 Unnecessary safe call on a non-null receiver of type 'JSONObject'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvCloudSync.kt:635:72 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvDriveSync.kt:68:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvDriveSync.kt:156:35 This declaration is in a preview state and can be changed in a backwards-incompatible manner with a best-effort migration. Its usage should be marked with '@kotlinx.coroutines.FlowPreview' or '@OptIn(kotlinx.coroutines.FlowPreview::class)' if you accept the drawback of relying on preview API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvDriveSync.kt:803:30 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/LiveTvDriveSync.kt:810:30 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/sync/PlaybackSettingsBackup.kt:25:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/thumbs/SeekThumbs.kt:296:28 This class is not recommended for use in Kotlin. Use 'kotlin.Any' instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/thumbs/SeekThumbsHls.kt:97:36 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Map<String, String>'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGearPanel.kt:319:44 'val Icons.Filled.VolumeUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.VolumeUp.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:3671:87 Unnecessary non-null assertion (!!) on a non-null receiver of type 'FocusRequester'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4035:85 Unnecessary non-null assertion (!!) on a non-null receiver of type 'EpgProgram'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4035:133 Unnecessary non-null assertion (!!) on a non-null receiver of type 'EpgProgram'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4267:25 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4267:58 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4267:73 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4775:93 Unnecessary non-null assertion (!!) on a non-null receiver of type 'EpgProgram'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:4781:107 Unnecessary non-null assertion (!!) on a non-null receiver of type 'EpgProgram'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:5120:25 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:5120:58 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvGuideScreen.kt:5120:73 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvPlayerPanel.kt:370:60 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvPlayerPanel.kt:391:53 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvPlayerPanel.kt:445:47 Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvPlayerScreen.kt:1052:45 Unnecessary safe call on a non-null receiver of type 'LiveChannel'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvPlayerScreen.kt:1994:27 Unnecessary safe call on a non-null receiver of type 'ExoPlayer'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvSearch.kt:308:38 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvSearch.kt:389:30 Unnecessary non-null assertion (!!) on a non-null receiver of type 'EpgProgram'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/livetv/ui/LiveTvSettingsViewModel.kt:25:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/CatalogRowSection.kt:370:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/CollectionRowSection.kt:187:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/ContinueWatchingSection.kt:238:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/ContinueWatchingSection.kt:792:55 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/GridContinueWatchingSection.kt:127:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/LightweightCard.kt:224:36 'fun asFrameworkPaint(): Paint' is deprecated. Use platform-specific extension to get platform reference.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/StreamBadgeChips.kt:70:17 This declaration needs opt-in. Its usage should be marked with '@coil3.annotation.ExperimentalCoilApi' or '@OptIn(coil3.annotation.ExperimentalCoilApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/posteroptions/PosterOptionsController.kt:45:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/components/posteroptions/PosterOptionsDialog.kt:240:9 'fun Divider(modifier: Modifier = ..., thickness: Dp = ..., color: Color = ...): Unit' is deprecated. Renamed to HorizontalDivider.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/CatalogSeeAllScreen.kt:135:26 'val LocalLifecycleOwner: ProvidableCompositionLocal<LifecycleOwner>' is deprecated. Moved to lifecycle-runtime-compose library in androidx.lifecycle.compose package.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/CatalogSeeAllScreen.kt:236:53 Unnecessary safe call on a non-null receiver of type 'CatalogRow'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/CatalogSeeAllScreen.kt:237:27 Unnecessary safe call on a non-null receiver of type 'CatalogRow'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/account/AccountScreen.kt:367:45 'val Icons.Filled.Logout: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.Logout.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/account/AccountViewModel.kt:89:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerScreen.kt:234:26 'val LocalLifecycleOwner: ProvidableCompositionLocal<LifecycleOwner>' is deprecated. Moved to lifecycle-runtime-compose library in androidx.lifecycle.compose package.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerScreen.kt:1725:21 'var enter: (FocusDirection) -> FocusRequester' is deprecated. Use onEnter instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerScreen.kt:1850:42 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerScreen.kt:1852:56 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerScreen.kt:1975:76 'var enter: (FocusDirection) -> FocusRequester' is deprecated. Use onEnter instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/addon/AddonManagerViewModel.kt:103:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/ambient/AmbientSlideLoader.kt:34:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/cast/CastDetailScreen.kt:627:29 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/cast/CastDetailScreen.kt:689:14 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/cast/CastDetailViewModel.kt:22:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/CollectionEditorViewModel.kt:171:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/CollectionManagementViewModel.kt:48:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/CollectionManagementViewModel.kt:306:82 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailScreen.kt:357:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailScreen.kt:507:33 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailScreen.kt:521:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailScreen.kt:561:21 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailViewModel.kt:119:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailViewModel.kt:284:38 Unnecessary safe call on a non-null receiver of type 'Collection'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailViewModel.kt:286:38 Unnecessary safe call on a non-null receiver of type 'Collection'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailViewModel.kt:362:49 Unnecessary safe call on a non-null receiver of type 'Collection'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/collection/FolderDetailViewModel.kt:1333:21 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CastSection.kt:30:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CastSection.kt:143:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CastSection.kt:149:18 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CastSection.kt:251:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CollectionSection.kt:15:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CollectionSection.kt:93:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CollectionSection.kt:99:18 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CollectionSection.kt:138:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CompanyLogosSection.kt:21:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CompanyLogosSection.kt:124:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CompanyLogosSection.kt:130:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CompanyLogosSection.kt:170:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/CompanyLogosSection.kt:199:26 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/EpisodeRatingsSection.kt:166:26 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/EpisodesSection.kt:259:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/HeroSection.kt:935:17 'constructor(p0: String!, p1: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:36:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:1433:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:1529:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:1540:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:2574:41 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:2651:45 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsScreen.kt:2677:45 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:100:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:510:18 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:521:18 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:534:33 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:581:18 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MetaDetailsViewModel.kt:627:33 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MoreLikeThisSection.kt:15:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MoreLikeThisSection.kt:98:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MoreLikeThisSection.kt:104:18 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/MoreLikeThisSection.kt:129:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/TrailerSection.kt:27:8 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/TrailerSection.kt:144:18 'interface BringIntoViewResponder : Any' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/TrailerSection.kt:150:18 'fun Modifier.bringIntoViewResponder(responder: BringIntoViewResponder): Modifier' is deprecated. Use BringIntoViewModifierNode instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/detail/TrailerSection.kt:175:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/GridHomeContent.kt:455:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModel.kt:68:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModel.kt:1012:41 Elvis operator (?:) always returns the left operand of non-nullable type 'Int'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModel.kt:1013:77 Elvis operator (?:) always returns the left operand of non-nullable type 'Int'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:110:96 Elvis operator (?:) always returns the left operand of non-nullable type 'Int'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:328:55 Unchecked cast of 'Any' to 'Set<String>'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:1612:55 Unnecessary safe call on a non-null receiver of type 'CwMetaSummary'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:1731:79 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:2082:56 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Int'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:2082:83 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Int'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:2901:67 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/HomeViewModelContinueWatching.kt:3288:61 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Long'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:649:48 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:785:65 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:788:54 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:790:54 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:800:58 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:803:67 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:804:63 Unnecessary safe call on a non-null receiver of type 'ModernCarouselItem'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeContent.kt:1026:66 Unnecessary non-null assertion (!!) on a non-null receiver of type 'ModernHeroSceneState'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeHero.kt:694:57 Unnecessary non-null assertion (!!) on a non-null receiver of type 'MDBListRatings'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeRows.kt:924:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeRows.kt:1178:29 Unnecessary safe call on a non-null receiver of type 'MetaPreview'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeRows.kt:1448:47 Unnecessary non-null assertion (!!) on a non-null receiver of type 'ModernPayload.CollectionFolder'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeRows.kt:1448:60 Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/home/ModernHomeRowsList.kt:293:18 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/library/LibraryScreen.kt:314:14 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/library/LibraryViewModel.kt:177:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/library/LibraryViewModel.kt:629:74 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/AudioOutputRouteDetector.kt:182:48 'constructor(p0: IntArray?, p1: Int): AudioCapabilities' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/BlurayPlaylistResolver.kt:320:30 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/MatroskaChapterLoader.kt:116:36 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/MpvMediaSessionPlayer.kt:52:24 'static field COMMAND_GET_MEDIA_ITEMS_METADATA: Int' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/ParallelRangeDataSource.kt:1088:68 Redundant call of conversion method.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/ParallelRangeDataSource.kt:1097:39 Redundant call of conversion method.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/ParallelRangeDataSource.kt:1335:34 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PauseOverlay.kt:361:93 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerAspectScaleUtils.kt:14:23 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerMediaInfo.kt:75:8 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerMediaSourceFactory.kt:1106:56 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2021:34 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2198:52 'field locale: Locale!' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2408:34 'constructor(): DefaultAudioSink.Builder' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2409:22 'fun setAudioCapabilities(p0: AudioCapabilities): DefaultAudioSink.Builder' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2583:22 'fun onCues(p0: (Mutable)List<Cue>): Unit' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2605:18 'fun onCues(p0: (Mutable)List<Cue>): Unit' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerInitialization.kt:2867:12 'constructor(p0: IntArray?, p1: Int): AudioCapabilities' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerMetadata.kt:393:77 Condition is always 'true'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:547:29 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:703:24 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:721:24 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:800:8 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:809:8 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerObservers.kt:817:8 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerStreams.kt:789:83 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerStreams.kt:820:83 Unnecessary safe call on a non-null receiver of type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerStreams.kt:2136:44 Elvis operator (?:) always returns the left operand of non-nullable type 'NextEpisodeInfo'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerSubtitleTiming.kt:434:38 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerTracks.kt:1709:79 Unnecessary safe call on a non-null receiver of type 'Subtitle'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerTracks.kt:1818:49 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerRuntimeControllerTracks.kt:1858:51 Elvis operator (?:) always returns the left operand of non-nullable type 'Subtitle'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerScreen.kt:241:26 'val LocalLifecycleOwner: ProvidableCompositionLocal<LifecycleOwner>' is deprecated. Moved to lifecycle-runtime-compose library in androidx.lifecycle.compose package.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerSidecarSubtitles.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerSubtitleDataSource.kt:71:26 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerSubtitleRtlFix.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/PlayerViewModel.kt:54:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/RewrappableExtractor.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSpotSampler.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSubtitleSyncController.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncDecoder.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncDecoder.kt:48:24 This class is not recommended for use in Kotlin. Use 'kotlin.Any' instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncExtractors.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncExtractors.kt:152:48 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Format'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncFallback.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/AudioSyncTracker.kt:257:37 Unnecessary non-null assertion (!!) on a non-null receiver of type 'SubtitleAudioAligner.Estimate'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/PlaybackAudioTap.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/SubtitleCandidatePool.kt:308:19 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/SubtitleCandidatePool.kt:309:33 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/SubtitleCandidatePool.kt:338:42 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/asr/AsrSyncEngine.kt:86:24 This class is not recommended for use in Kotlin. Use 'kotlin.Any' instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/audiosync/asr/AsrSyncEngine.kt:289:50 Java type mismatch: inferred type is 'AsrSyncEngine.Segment?', but 'AsrSyncEngine.Segment' was expected.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/AutoSyncExtractorsFactory.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/AutoSyncLibassSubtitles.kt:1:13 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/AutoSyncSubtitleHttp.kt:56:56 The corresponding parameter in the supertype 'Callback' is named 'e'. This may cause problems when calling this function with named arguments.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/AutomaticSubtitleSync.kt:2346:52 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Long'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/EmbeddedSubtitleTimelineLoader.kt:44:8 Annotation 'androidx.media3.common.util.UnstableApi' is not annotated with '@RequiresOptIn'. '@OptIn' has no effect.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/EmbeddedSubtitleTimelineLoader.kt:1867:56 The corresponding parameter in the supertype 'Callback' is named 'e'. This may cause problems when calling this function with named arguments.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/player/autosync/EmbeddedSubtitleTimelineLoader.kt:1902:57 Elvis operator (?:) always returns the left operand of non-nullable type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/plugin/PluginViewModel.kt:29:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/profile/ProfileSelectionViewModel.kt:123:22 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/search/SearchDiscoverSection.kt:607:14 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/search/SearchScreen.kt:390:56 'val LocalLifecycleOwner: ProvidableCompositionLocal<LifecycleOwner>' is deprecated. Moved to lifecycle-runtime-compose library in androidx.lifecycle.compose package.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/search/SearchViewModel.kt:62:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/search/SearchViewModel.kt:788:74 Elvis operator (?:) always returns the left operand of non-nullable type 'String'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/AboutScreen.kt:150:62 'val Icons.Filled.OpenInNew: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.OpenInNew.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/DebugSettingsViewModel.kt:36:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/LiveTvSettingsContent.kt:104:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/LiveTvSettingsContent.kt:105:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/LiveTvSettingsContent.kt:106:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/LiveTvSettingsContent.kt:596:53 Unnecessary safe call on a non-null receiver of type 'PlaylistAccount'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/LiveTvSettingsContent.kt:3373:117 Unnecessary safe call on a non-null receiver of type 'URI'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/SimklSettingsViewModel.kt:48:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/SubtitleFontsViewModel.kt:37:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/SupportersContributorsViewModel.kt:49:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/TraktViewModel.kt:58:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/TvSetupSection.kt:121:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/UsenetDiagnosticsCard.kt:126:55 Unnecessary safe call on a non-null receiver of type 'JSONObject'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/VpnSettingsContent.kt:92:26 Unnecessary safe call on a non-null receiver of type 'Window'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/VpnSettingsContent.kt:93:38 Unnecessary safe call on a non-null receiver of type 'Window'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/settings/VpnSettingsContent.kt:177:47 Unnecessary safe call on a non-null receiver of type 'VpnSettingsController.State'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreen.kt:154:26 'val LocalLifecycleOwner: ProvidableCompositionLocal<LifecycleOwner>' is deprecated. Moved to lifecycle-runtime-compose library in androidx.lifecycle.compose package.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreen.kt:941:33 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreen.kt:941:46 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreen.kt:941:61 Experimental Haze API
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreenViewModel.kt:86:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreenViewModel.kt:1082:58 Unnecessary safe call on a non-null receiver of type 'List<AddonStreams>'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/stream/StreamScreenViewModel.kt:2295:63 Unnecessary safe call on a non-null receiver of type 'ResponseBody'.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/tmdb/TmdbEntityBrowseScreen.kt:573:22 'fun Modifier.focusRestorer(onRestoreFailed: (() -> FocusRequester)?): Modifier' is deprecated. Use focusRestorer(FocusRequester) instead.
+w: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/app/src/main/java/com/nuvio/tv/ui/screens/tmdb/TmdbEntityBrowseViewModel.kt:27:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to field.
+- To opt in to applying to both value parameter and field, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+
+> Task :app:compileFullReleaseJavaWithJavac
+> Task :app:hiltAggregateDepsFullRelease
+
+> Task :app:hiltJavaCompileFullRelease
+warning: Kapt support in Moshi Kotlin Code Gen is deprecated and will be removed in 2.0. Please migrate to KSP. https://github.com/square/moshi#codegen
+1 warning
+
+> Task :app:processFullReleaseJavaRes
+> Task :app:mergeFullReleaseJavaResource
+> Task :app:transformFullReleaseClassesWithAsm
+> Task :app:generateFullReleaseLintVitalReportModel
+> Task :app:mergeFullReleaseGeneratedProguardFiles
+> Task :app:expandFullReleaseArtProfileWildcards
+> Task :app:produceFullReleaseComposeMapping
+> Task :app:reportFullReleaseComposeMappingErrors
+> Task :app:lintVitalAnalyzeFullRelease
+> Task :app:minifyFullReleaseWithR8
+> Task :app:lintVitalReportFullRelease
+> Task :app:lintVitalFullRelease
+
+> Task :app:minifyFullReleaseWithR8
+WARNING: R8: Unable to include all startup classes in classes.dex. Startup classes were distributed in: classes.dex, classes2.dex.
+
+> Task :app:mergeFullReleaseComposeMapping
+> Task :app:generateSentryProguardUuidFullRelease
+> Task :app:convertShrunkResourcesToBinaryFullRelease
+> Task :app:optimizeFullReleaseResources
+> Task :app:l8DexDesugarLibFullRelease
+> Task :app:compileFullReleaseArtProfile
+> Task :app:embedFullReleaseUpdateDexMetadata
+> Task :app:mergeFullReleaseAssets
+> Task :app:injectSentryDebugMetaPropertiesIntoAssetsFullRelease
+> Task :app:compressFullReleaseAssets
+> Task :app:packageFullRelease
+> Task :app:createFullReleaseApkListingFileRedirect
+> Task :app:assembleFullRelease
+
+> Task :app:uploadSentryProguardMappingsFullRelease
+> skipping upload.
+
+[Incubating] Problems report is available at: file:///home/runner/work/NuvioTV-Ry/NuvioTV-Ry/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 34m 45s
+125 actionable tasks: 125 executed
