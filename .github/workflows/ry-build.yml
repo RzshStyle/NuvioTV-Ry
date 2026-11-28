@@ -107,7 +107,7 @@ jobs:
           # Same formula as app/build.gradle.kts: Nuvio's code x 100 + the run number.
           code=$(( $(grep -m1 -E '^\s*versionCode = [0-9]+' app/build.gradle.kts | grep -oE '[0-9]+') * 100 + ${{ github.run_number }} ))
           jq -n --arg name "$RY_VERSION_NAME" --argjson code "$code" \
-            --arg notes "Built from ${GITHUB_REF_NAME} at ${GITHUB_SHA::7}." \
+            --arg notes "$(git log -1 --format=%s) (built from ${GITHUB_REF_NAME} at ${GITHUB_SHA::7})" \
             --arg url "https://github.com/${GITHUB_REPOSITORY}/releases/download/plus-tv-test/NuvioPlus-TV.apk" \
             --arg release "https://github.com/${GITHUB_REPOSITORY}/releases/tag/plus-tv-test" \
             --arg sha "$(sha256sum NuvioPlus-TV.apk | cut -d' ' -f1)" \
