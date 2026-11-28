@@ -758,6 +758,8 @@ data class LiveUserState(
     val reminders: List<Reminder> = emptyList(),
     /** Channel key -> picture quality seen when it last played ("4K", "FHD", "HD", "SD"). */
     val channelQuality: Map<String, String> = emptyMap(),
+    /** Channel key -> frames per second seen when it last played ("60", "50", "30"). */
+    val channelFps: Map<String, String> = emptyMap(),
     /** Channel key -> the audio track you picked there ("language|label|channels"). */
     val channelAudio: Map<String, String> = emptyMap(),
     /** Channel key -> your caption choice there: "off", "on|cc" (closed captions) or "on|sub|<label>". */

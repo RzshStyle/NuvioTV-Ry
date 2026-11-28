@@ -169,9 +169,18 @@ data class ChannelMatch(
     val how: String,
     val program: EpgProgram?,
     val quality: String?,
-    val catchup: Boolean
+    val catchup: Boolean,
+    /** Frames per second: measured when the channel last played, else what its name says ("60fps"). */
+    val fps: Int? = null
 ) {
     val sure: Boolean get() = score >= 80
+
+    /** The picture as one short label: "4K · 60fps", "1080p · 50fps", "720p". */
+    val pictureLabel: String?
+        get() {
+            val q = when (quality) { "FHD" -> "1080p"; "HD" -> "720p"; else -> quality }
+            return listOfNotNull(q, fps?.let { "${it}fps" }).joinToString(" · ").ifBlank { null }
+        }
 }
 
 // ------------------------------------------------------------------ settings and follows
@@ -187,6 +196,8 @@ data class SportsSettings(
     /** The pin button on Live TV's info bar and the pinned scoreboards in the corner. */
     val pinnedScores: Boolean = true,
     val bestChannelFirst: Boolean = true,
+    /** A game's streams in picture order: 4K first (highest frame rate first), then 1080p, 720p, SD. */
+    val sortByPicture: Boolean = true,
     val remindMyTeams: Boolean = true,
     /** Minutes before the start (0 = at the start). */
     val remindMinutes: Int = 15,
@@ -228,6 +239,7 @@ data class SportsSettings(
         .put("scoreOnInfoBar", scoreOnInfoBar)
         .put("pinnedScores", pinnedScores)
         .put("bestChannelFirst", bestChannelFirst)
+        .put("sortByPicture", sortByPicture)
         .put("remindMyTeams", remindMyTeams)
         .put("remindMinutes", remindMinutes)
         .put("autoSwitch", autoSwitch)
@@ -261,6 +273,7 @@ data class SportsSettings(
                     scoreOnInfoBar = o.optBoolean("scoreOnInfoBar", d.scoreOnInfoBar),
                     pinnedScores = o.optBoolean("pinnedScores", d.pinnedScores),
                     bestChannelFirst = o.optBoolean("bestChannelFirst", d.bestChannelFirst),
+                    sortByPicture = o.optBoolean("sortByPicture", d.sortByPicture),
                     remindMyTeams = o.optBoolean("remindMyTeams", d.remindMyTeams),
                     remindMinutes = o.optInt("remindMinutes", d.remindMinutes),
                     autoSwitch = o.optBoolean("autoSwitch", d.autoSwitch),

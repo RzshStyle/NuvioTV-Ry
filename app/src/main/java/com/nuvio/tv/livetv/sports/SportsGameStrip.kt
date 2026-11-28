@@ -618,7 +618,7 @@ private fun StripStreamCard(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            match.quality?.takeIf { it.isNotBlank() }?.let {
+            match.pictureLabel?.takeIf { it.isNotBlank() }?.let {
                 SportsBadge(it, accent.copy(alpha = 0.25f), NuvioTheme.colors.TextPrimary)
             }
             LiveText(match.channel.sourceName, Modifier.weight(1f), size = 10.sp,

@@ -148,7 +148,8 @@ class SportsAddonSource @Inject constructor(
                     how = "From ${a.displayName}",
                     program = null,
                     quality = SportsMatcher.nameQuality(s.info),
-                    catchup = false
+                    catchup = false,
+                    fps = SportsMatcher.nameFps(s.info)
                 )
             }
         }
@@ -208,7 +209,8 @@ class SportsAddonSource @Inject constructor(
                 how = "${v.kind.label} · ${v.g.addon.displayName}",
                 program = null,
                 quality = SportsMatcher.nameQuality(v.s.info),
-                catchup = false
+                catchup = false,
+                fps = SportsMatcher.nameFps(v.s.info)
             )
         }
         out

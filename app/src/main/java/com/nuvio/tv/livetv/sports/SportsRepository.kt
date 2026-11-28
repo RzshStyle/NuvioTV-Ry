@@ -2021,7 +2021,7 @@ class SportsRepository @Inject constructor(
                 for (c in list) h = h * 31 + c.key.hashCode()
                 list.size to h
             }.distinctUntilChanged(),
-            settings.map { listOf(it.networkChannels, it.eventChannels, it.teamChannels, it.leagueChannels, it.blocked, it.bestChannelFirst, it.hiddenLeagues, it.region, it.preferredGroups) }.distinctUntilChanged(),
+            settings.map { listOf(it.networkChannels, it.eventChannels, it.teamChannels, it.leagueChannels, it.blocked, it.bestChannelFirst, it.sortByPicture, it.hiddenLeagues, it.region, it.preferredGroups) }.distinctUntilChanged(),
             follows.map { it.words to it.leagues }.distinctUntilChanged(),
             // Live TV ready, and the guide really replaced (not every update check that found nothing new).
             combine(liveRepo.status.map { it.loadedOnce }, liveRepo.guideGeneration) { a, b -> a to b }.distinctUntilChanged()
@@ -2381,7 +2381,7 @@ class SportsRepository @Inject constructor(
                 val quickAt = System.currentTimeMillis()
                 sportsCatching {
                     matcher.match(SportsMatcher.Input(
-                        events = matchingEvents, channels = channels, quality = user.channelQuality,
+                        events = matchingEvents, channels = channels, quality = user.channelQuality, fps = user.channelFps.fpsMap(),
                         shiftMs = shift, settings = s, now = now, readGuide = false,
                         networksUntil = now + 3 * HOUR
                     ))
@@ -2413,7 +2413,7 @@ class SportsRepository @Inject constructor(
                 SportsMatcher.Input(
                     events = SportsMatchingEvents.select(events.value, known.value, s, now),
                     channels = channels,
-                    quality = user.channelQuality,
+                    quality = user.channelQuality, fps = user.channelFps.fpsMap(),
                     shiftMs = shift,
                     settings = s,
                     now = now,
@@ -2450,7 +2450,7 @@ class SportsRepository @Inject constructor(
                     val old = byChannel[m.channel.key]
                     if (old == null || m.score > old.score) byChannel[m.channel.key] = m
                 }
-                next[id] = SportsMatcher.sortMatches(byChannel.values.toList(), s.bestChannelFirst, rank).take(40)
+                next[id] = SportsMatcher.sortMatches(byChannel.values.toList(), s.bestChannelFirst, rank, s.sortByPicture).take(40)
             }
             next
         }
@@ -3174,3 +3174,7 @@ object SportsLive {
         }
     }
 }
+
+/** Saved frame rates ("60") as numbers. */
+private fun Map<String, String>.fpsMap(): Map<String, Int> =
+    if (isEmpty()) emptyMap() else mapNotNull { (k, v) -> v.toIntOrNull()?.let { k to it } }.toMap()

@@ -251,6 +251,7 @@ class LiveTvPreferences @Inject constructor(
         val collapsedPlaylists = stringSetPreferencesKey("collapsed_playlists")
         val reminders = stringPreferencesKey("reminders")
         val channelQuality = stringPreferencesKey("channel_quality")
+        val channelFps = stringPreferencesKey("channel_fps")
         val channelAudio = stringPreferencesKey("channel_audio")
         val channelCaptions = stringPreferencesKey("channel_captions")
         val vodHiddenCategories = stringSetPreferencesKey("vod_hidden_categories")
@@ -807,6 +808,7 @@ class LiveTvPreferences @Inject constructor(
             favoriteGroups = p[Keys.favoriteGroups] ?: emptySet(),
             reminders = decodeReminders(p[Keys.reminders]),
             channelQuality = decodeStringMap(d[Keys.channelQuality] ?: p[Keys.channelQuality]),
+            channelFps = decodeStringMap(d[Keys.channelFps]),
             channelAudio = decodeStringMap(p[Keys.channelAudio]),
             channelCaptions = decodeStringMap(p[Keys.channelCaptions]),
             vodHiddenCategories = p[Keys.vodHiddenCategories] ?: emptySet(),
@@ -1316,6 +1318,16 @@ class LiveTvPreferences @Inject constructor(
             if (m[key] == quality && p[Keys.channelQuality] != null) return@edit
             m[key] = quality
             p[Keys.channelQuality] = encodeStringMap(m)
+        }
+    }
+
+    /** The frame rate a channel last played at (for Sports' picture order and badges). */
+    suspend fun setChannelFps(key: String, fps: Int) {
+        deviceStore.edit { p ->
+            val m = decodeStringMap(p[Keys.channelFps]).toMutableMap()
+            if (m[key] == fps.toString()) return@edit
+            m[key] = fps.toString()
+            p[Keys.channelFps] = encodeStringMap(m)
         }
     }
 

@@ -320,7 +320,7 @@ internal fun GameChannelsDialog(
                     Column(Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             OneLine(m.channel.name, Color.White, 13.sp, FontWeight.ExtraBold, Modifier.weight(1f, fill = false))
-                            m.quality?.let {
+                            m.pictureLabel?.let {
                                 Spacer(Modifier.width(6.dp))
                                 LiveText(it, color = NuvioTheme.colors.Secondary, size = 9.sp, weight = FontWeight.Black)
                             }
@@ -328,6 +328,8 @@ internal fun GameChannelsDialog(
                         if (guide != null) GuideLineText(guide, modifier = Modifier.padding(top = 2.dp))
                         else if (m.channel.sourceId == SportsAddonSource.SOURCE_ID) LiveText("Add-on stream · ${m.channel.sourceName}", color = SportsLook.Dim, size = 10.sp)
                         else if (!m.sure) LiveText("Might be showing it", color = SportsLook.Dim, size = 10.sp)
+                        if (guide != null || m.sure) m.channel.sourceName.takeIf { it.isNotBlank() && m.channel.sourceId != SportsAddonSource.SOURCE_ID }
+                            ?.let { LiveText(it, color = SportsLook.Dim, size = 9.sp, maxLines = 1) }
                     }
                     Spacer(Modifier.width(8.dp))
                     SportsAction("▶  Watch", modifier = if (i == 0) Modifier.focusRequester(first) else Modifier) { onWatch(m) }

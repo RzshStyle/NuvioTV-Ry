@@ -44,6 +44,8 @@ internal class SportsMatcher(
         val channels: List<LiveChannel>,
         /** Channel key -> picture quality seen ("4K", "FHD", "HD", "SD"). */
         val quality: Map<String, String>,
+        /** Channel key -> frames per second measured when it last played. */
+        val fps: Map<String, Int> = emptyMap(),
         /** Your guide time shift (Live TV settings), in ms: the database keeps the guide's own times. */
         val shiftMs: Long,
         val settings: SportsSettings,
@@ -326,6 +328,7 @@ internal class SportsMatcher(
                         how = f.how,
                         program = f.program,
                         quality = input.quality[ch.key] ?: nameQuality(ch.name),
+                        fps = input.fps[ch.key] ?: nameFps(ch.name),
                         catchup = if (ch.stalkerRef != null) f.program?.let { CatchupUrlBuilder.isAvailable(ch, it, input.now) } == true
                         else ch.catchup != null && CatchupUrlBuilder.isAvailable(ch.catchup, f.program?.startMs ?: ev.startMs, input.now)
                     )
@@ -334,7 +337,7 @@ internal class SportsMatcher(
             // Every channel the guide has for it (FHD/HD/SD copies are folded into one row on the
             // game page, other regions under "+ N from other regions"), so nothing the guide shows
             // is left out. 40 is only a guard against a runaway list; it costs no extra searching.
-            return sortMatches(list, input.settings.bestChannelFirst, rank).take(40)
+            return sortMatches(list, input.settings.bestChannelFirst, rank, input.settings.sortByPicture).take(40)
         }
         fun urgent(ev: SportsEvent) = ev.state == GameState.LIVE ||
             (ev.state == GameState.PRE && ev.startMs in (input.now - 15 * MINUTE)..(input.now + 15 * MINUTE))
@@ -1760,6 +1763,29 @@ internal class SportsMatcher(
             }
         }
 
+        private val FPS_WORD = Regex("""(?i)(?:\b|_)(\d{2,3})\s?(?:fps|p\b)|(?:\d{3,4}[pi])(\d{2,3})\b|@\s?(\d{2,3})\b""")
+
+        /** The frame rate a stream's name or description says ("60fps", "1080p50", "@60"), or null. */
+        fun nameFps(name: String): Int? {
+            for (m in FPS_WORD.findAll(name)) {
+                val raw = m.groupValues.drop(1).firstOrNull { it.isNotEmpty() } ?: continue
+                // "720p" / "1080p" are sizes, not rates: only plausible frame rates count.
+                val v = raw.toIntOrNull() ?: continue
+                val word = m.value.lowercase()
+                if (word.endsWith("p") && !word.contains("fps") && v !in setOf(24, 25, 30, 50, 60)) continue
+                if (v in 20..240) return v
+            }
+            return null
+        }
+
+        /** Rounds a measured rate to the usual ones (59.94 -> 60, 29.97 -> 30, 23.976 -> 24). */
+        fun standardFps(measured: Float): Int? {
+            if (measured <= 0f) return null
+            val known = intArrayOf(24, 25, 30, 48, 50, 60, 100, 120)
+            val best = known.minByOrNull { kotlin.math.abs(it - measured) }!!
+            return if (kotlin.math.abs(best - measured) <= 2f) best else kotlin.math.round(measured).toInt()
+        }
+
         fun qualityRank(q: String?): Int = when (q) {
             "4K" -> 4; "FHD" -> 3; "HD" -> 2; "SD" -> 1; else -> 2
         }
@@ -1863,13 +1889,30 @@ internal class SportsMatcher(
             }
         }
 
-        fun sortMatches(list: List<ChannelMatch>, bestFirst: Boolean, rank: (LiveChannel) -> Int = { 0 }): List<ChannelMatch> {
+        fun sortMatches(
+            list: List<ChannelMatch>,
+            bestFirst: Boolean,
+            rank: (LiveChannel) -> Int = { 0 },
+            /** Picture order: 4K 120, 4K 60, 4K 30, then 1080p from the highest frame rate down, and so on. */
+            byPicture: Boolean = false
+        ): List<ChannelMatch> {
             fun band(score: Int) = when {
                 score >= 150 -> 3
                 score >= 80 -> 2
                 score >= 55 -> 1
                 else -> 0
             }
+            // Your own picks stay on top, then the channels showing it, best picture first;
+            // the guesses ("MAYBE") after them, also best picture first.
+            if (byPicture) return list.sortedWith(
+                compareByDescending<ChannelMatch> { if (band(it.score) == 3) 1 else 0 }
+                    .thenByDescending { if (it.sure) 1 else 0 }
+                    .thenByDescending { qualityRank(it.quality) }
+                    .thenByDescending { it.fps ?: 0 }
+                    .thenByDescending { rank(it.channel) }
+                    .thenByDescending { it.score }
+                    .thenBy { it.channel.name.length }
+            )
             // Your own picks first; then your groups and region; then how sure and how good.
             return if (bestFirst) list.sortedWith(
                 compareByDescending<ChannelMatch> { if (band(it.score) == 3) 1 else 0 }

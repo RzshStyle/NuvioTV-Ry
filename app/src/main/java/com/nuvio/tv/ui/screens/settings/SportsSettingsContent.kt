@@ -168,6 +168,12 @@ fun SportsSettingsContent(
                         s.bestChannelFirst,
                         { update { it.copy(bestChannelFirst = !it.bestChannelFirst) } }
                     )
+                    SettingsToggleRow(
+                        "Sort Streams by Picture",
+                        "Each stream gets its own row with its source, quality and frame rate: 4K at the top (120, 60, then 30fps), then 1080p from the highest frame rate down, then 720p and SD",
+                        s.sortByPicture,
+                        { update { it.copy(sortByPicture = !it.sortByPicture) } }
+                    )
                 }
             }
             item(key = "reminders") {

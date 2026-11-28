@@ -338,6 +338,9 @@ fun LiveTvPlayerScreen(
             // Timestamp callbacks can be usable before videoFormat/its frameRate is available.
             val fps = liveFrameRateForSession(active, measured, f?.frameRate ?: -1f)
             if (fps > 0f) shownFps = fps
+            // Measured from the frames themselves (streams rarely state it): saved for Sports.
+            if (measured > 0f && playback.catchupTitle == null &&
+                android.os.SystemClock.elapsedRealtime() - startedAt >= 6_000L) playback.channelKey?.let { viewModel.recordFps(it, measured) }
             // Keep waiting for measurements after the diagnostic below; a late measured rate
             // must still trigger mode selection on metadata-less live streams.
             val now = android.os.SystemClock.elapsedRealtime()

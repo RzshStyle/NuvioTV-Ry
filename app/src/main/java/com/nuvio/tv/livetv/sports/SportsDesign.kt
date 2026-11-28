@@ -960,7 +960,7 @@ internal fun SportsChannelRow(
                     color = Color(0xFFC9CCD6), size = 9.sp, weight = FontWeight.Black
                 )
             }
-            m.quality?.let { q ->
+            m.pictureLabel?.let { q ->
                 Spacer(Modifier.width(6.dp))
                 LiveText(
                     q,
@@ -970,7 +970,7 @@ internal fun SportsChannelRow(
             }
             // Its other copies: their qualities ("+ HD SD"), or how many when they don't say.
             if (copies.isNotEmpty()) {
-                val qs = copies.mapNotNull { it.quality }.distinct().filter { it != m.quality }
+                val qs = copies.mapNotNull { it.pictureLabel }.distinct().filter { it != m.pictureLabel }
                 Spacer(Modifier.width(5.dp))
                 LiveText(
                     if (qs.size == copies.size) "+ " + qs.joinToString(" ") else "+${copies.size}",

@@ -316,6 +316,13 @@ class LiveTvViewModel @Inject constructor(
         viewModelScope.launch { prefs.setChannelQuality(channelKey, q) }
     }
 
+    /** Remembers the frame rate a channel played at (Sports sorts and labels its streams by it). */
+    fun recordFps(channelKey: String, fps: Float) {
+        val v = com.nuvio.tv.livetv.sports.SportsMatcher.standardFps(fps) ?: return
+        if (userState.value.channelFps[channelKey] == v.toString()) return
+        viewModelScope.launch { prefs.setChannelFps(channelKey, v) }
+    }
+
     // ------------------------------------------------------------ reminders
 
     /** Sets or cancels "Remind me" for an upcoming show. */
@@ -450,7 +457,14 @@ class LiveTvViewModel @Inject constructor(
         // in full screen, or playing from Sports / the Calendar / a launcher row, no longer
         // replaces it with the channel's own group or the default one.
         val shown = (watchedIn ?: session.currentGroupId.value)?.takeIf { it != ChannelGroup.SEARCH }
-        viewModelScope.launch {
+        // Saved once the channel has been on a moment, not on every press while flicking through:
+        // each save rebuilt the channel lists (all of a big playlist's channels) right while the
+        // box was busy starting the new channel. Channels only flicked past don't fill
+        // Recently watched either.
+        watchedJob?.cancel()
+        watchedJob = viewModelScope.launch {
+            delay(WATCHED_AFTER_MS)
+            if (playback.playingChannel?.key != channel.key) return@launch
             val addToRecent = !isAdultChannel(channel)
             prefs.recordWatched(channel.key, addToRecent = addToRecent)
             val user = prefs.userState.first()
@@ -466,6 +480,8 @@ class LiveTvViewModel @Inject constructor(
             }
         }
     }
+
+    private var watchedJob: kotlinx.coroutines.Job? = null
 
     /** Adult channels never show in Recently watched (by their name or their group's name). */
     fun isAdultChannel(ch: LiveChannel): Boolean =
@@ -1007,7 +1023,9 @@ class LiveTvViewModel @Inject constructor(
      * groups), loaded first at start-up so the row fills in straight away.
      */
     private val homeRowKeys: kotlinx.coroutines.flow.Flow<List<String>> =
-        combine(displayChannels, userState, settings) { channels, user, s ->
+        // Only what the lists use (as for [uiState]): every other save (the last channel, its
+        // quality, audio track…) used to rebuild this over every channel of the playlist.
+        combine(displayChannels, userState.distinctUntilChanged { a, b -> sameForLists(a, b) }, settings) { channels, user, s ->
             if (!s.homeRowEnabled || channels.isEmpty()) emptyList()
             else {
                 val groupId = when (s.homeRowSource) {
@@ -1837,6 +1855,9 @@ internal fun stationNote(name: String): String? =
         .firstOrNull { it.isNotBlank() && backupName(it).isNotBlank() }
 
 /** The parts of the saved user state that [buildUi] reads; keep in step with it. */
+/** How long a channel has to be on before it counts as watched (Recently watched, last group). */
+private const val WATCHED_AFTER_MS = 3_000L
+
 internal fun sameForLiveTvLists(a: LiveUserState, b: LiveUserState): Boolean =
     a.favorites == b.favorites && a.recent == b.recent &&
         a.hiddenChannels == b.hiddenChannels && a.hiddenGroups == b.hiddenGroups &&
