@@ -478,6 +478,13 @@ data class LiveTvSettings(
      * ("S02 E02"). Those turned up as one-item Live TV groups.
      */
     val hideStrayEntries: Boolean = true,
+    /**
+     * Channel filter by the tag at the start of group or channel names ("UK", "US", "4K"):
+     * [GroupPrefixFilter.OFF], KEEP (only matching channels) or HIDE (matching ones left out).
+     */
+    val groupFilterMode: String = GroupPrefixFilter.OFF,
+    /** The filter's tags, comma separated, upper case. */
+    val groupFilterTags: String = "",
     /** Catch-up replays saved to the device while they play, for instant skipping. */
     val catchupCache: Boolean = true,
     val channelSort: ChannelSort = ChannelSort.PLAYLIST,

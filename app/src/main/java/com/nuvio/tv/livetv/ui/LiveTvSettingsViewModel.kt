@@ -117,6 +117,17 @@ class LiveTvSettingsViewModel @Inject constructor(
         }
     }
 
+    /** Channel filter (UK, US, 4K…): saved, then the channel list is made again with it. */
+    fun applyGroupFilter(mode: String, tags: List<String>) {
+        viewModelScope.launch {
+            prefs.updateSettings { it.copy(groupFilterMode = mode, groupFilterTags = com.nuvio.tv.livetv.model.GroupPrefixFilter.joinTags(tags)) }
+            repository.rebuildChannelList()
+        }
+    }
+
+    /** Tags found at the start of group names, with how many channels each has. */
+    suspend fun groupTags(): List<Pair<String, Int>> = repository.groupTags()
+
     /** Settings that change which programs are kept need the guide re-read. */
     fun updateAndReloadEpg(transform: (LiveTvSettings) -> LiveTvSettings) {
         viewModelScope.launch {

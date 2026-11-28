@@ -114,6 +114,8 @@ class LiveTvPreferences @Inject constructor(
         val autoReconnect = booleanPreferencesKey("auto_reconnect")
         val autoBackupChannel = booleanPreferencesKey("auto_backup_channel")
         val hideStrayEntries = booleanPreferencesKey("hide_stray_entries")
+        val groupFilterMode = stringPreferencesKey("group_filter_mode")
+        val groupFilterTags = stringPreferencesKey("group_filter_tags")
         val catchupCache = booleanPreferencesKey("catchup_cache")
         val channelSort = stringPreferencesKey("channel_sort")
         val solidHighlight = booleanPreferencesKey("solid_highlight")
@@ -627,6 +629,8 @@ class LiveTvPreferences @Inject constructor(
             autoReconnect = p[Keys.autoReconnect] ?: d.autoReconnect,
             autoBackupChannel = p[Keys.autoBackupChannel] ?: d.autoBackupChannel,
             hideStrayEntries = p[Keys.hideStrayEntries] ?: d.hideStrayEntries,
+            groupFilterMode = p[Keys.groupFilterMode] ?: d.groupFilterMode,
+            groupFilterTags = p[Keys.groupFilterTags] ?: d.groupFilterTags,
             catchupCache = p[Keys.catchupCache] ?: d.catchupCache,
             channelSort = p[Keys.channelSort]?.let { runCatching { ChannelSort.valueOf(it) }.getOrNull() } ?: d.channelSort,
             solidHighlight = p[Keys.solidHighlight] ?: d.solidHighlight,
@@ -980,6 +984,8 @@ class LiveTvPreferences @Inject constructor(
         p[Keys.autoReconnect] = s.autoReconnect
         p[Keys.autoBackupChannel] = s.autoBackupChannel
         p[Keys.hideStrayEntries] = s.hideStrayEntries
+        p[Keys.groupFilterMode] = s.groupFilterMode
+        p[Keys.groupFilterTags] = s.groupFilterTags
         p[Keys.catchupCache] = s.catchupCache
         p[Keys.channelSort] = s.channelSort.name
         p[Keys.solidHighlight] = s.solidHighlight

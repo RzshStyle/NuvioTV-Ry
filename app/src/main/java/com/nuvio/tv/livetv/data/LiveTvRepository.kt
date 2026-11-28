@@ -98,6 +98,10 @@ class LiveTvRepository @Inject constructor(
 
     private val baseDir = File(context.filesDir, "livetv")
     private val playlistDir = File(baseDir, "playlists")
+    /** Tags found at the start of each playlist's group names, with channel counts (for the channel filter). */
+    private val groupTagsFile = File(baseDir, "group_tags.json")
+    private val groupTagsLock = Any()
+    @Volatile private var groupTagsCache: MutableMap<String, Map<String, Int>>? = null
     private val epgDir = File(baseDir, "epg")
 
     private val _channels = MutableStateFlow<List<LiveChannel>>(emptyList())
@@ -577,6 +581,47 @@ class LiveTvRepository @Inject constructor(
         mutex.withLock { rebuildLocked() }
     }
 
+    private fun readGroupTags(): MutableMap<String, Map<String, Int>> = groupTagsCache ?: runCatching {
+        val json = org.json.JSONObject(groupTagsFile.readText())
+        val out = HashMap<String, Map<String, Int>>()
+        json.keys().forEach { pl ->
+            val o = json.getJSONObject(pl)
+            out[pl] = o.keys().asSequence().associateWith { o.getInt(it) }
+        }
+        out
+    }.getOrElse { HashMap() }.also { groupTagsCache = it }
+
+    private fun saveGroupTags(playlistId: String, counts: Map<String, Int>) = synchronized(groupTagsLock) {
+        val all = readGroupTags()
+        if (all[playlistId] == counts) return@synchronized
+        all[playlistId] = HashMap(counts)
+        runCatching {
+            val json = org.json.JSONObject()
+            all.forEach { (pl, m) -> json.put(pl, org.json.JSONObject(m as Map<*, *>)) }
+            groupTagsFile.parentFile?.mkdirs()
+            groupTagsFile.writeText(json.toString())
+        }
+    }
+
+    /**
+     * Tags at the start of group names (UK, US, 4K…) across your switched-on playlists, most
+     * channels first. A playlist not read since this list existed is worked out from its
+     * channels on screen.
+     */
+    suspend fun groupTags(): List<Pair<String, Int>> = withContext(Dispatchers.Default) {
+        val on = prefs.currentPlaylists().filter { it.liveEnabled }.map { it.id }
+        val saved = synchronized(groupTagsLock) { HashMap(readGroupTags()) }
+        val total = HashMap<String, Int>()
+        val missing = on.filter { it !in saved }.toHashSet()
+        on.forEach { id -> saved[id]?.forEach { (t, n) -> total[t] = (total[t] ?: 0) + n } }
+        if (missing.isNotEmpty()) {
+            _channels.value.forEach { c ->
+                if (c.sourceId in missing) com.nuvio.tv.livetv.model.GroupPrefixFilter.detectTag(c.group)?.let { total[it] = (total[it] ?: 0) + 1 }
+            }
+        }
+        total.entries.sortedWith(compareByDescending<Map.Entry<String, Int>> { it.value }.thenBy { it.key }).map { it.key to it.value }
+    }
+
     /** "Hide stray entries" switched: the channel list is made again from the downloaded playlists. */
     fun rebuildChannelList() {
         scope.launch { rebuild() }
@@ -903,6 +948,10 @@ class LiveTvRepository @Inject constructor(
         // Stray entries are left out unless that's switched off. Only "off" is added, so lists
         // saved before this setting existed stay valid (they're cleaned at the next update).
         if (!pl.isStalker && !prefs.currentSettings().hideStrayEntries) sb.append(":stray=off")
+        // The channel filter (UK, US, 4K…): a changed filter reads the playlists again. Nothing
+        // is added while it's off, so lists saved before it existed stay valid.
+        prefs.currentSettings().let { com.nuvio.tv.livetv.model.GroupPrefixFilter.stamp(it.groupFilterMode, it.groupFilterTags) }
+            ?.let { sb.append(":filter=").append(it.hashCode()) }
         return sb.toString()
     }
 
@@ -2364,6 +2413,8 @@ class LiveTvRepository @Inject constructor(
         playlists.forEach { segments[it.id] = playlistSegment(it) }
         var counter = 1
         var read = 0
+        val filterSettings = prefs.currentSettings()
+        val groupFilter = com.nuvio.tv.livetv.model.GroupPrefixFilter.active(filterSettings.groupFilterMode, filterSettings.groupFilterTags)
         val toRead = playlists.count { reuseSegments[it.id] != segments[it.id] || oldBySource[it.id] == null }
         for (pl in playlists) {
             val file = playlistFile(pl.id)
@@ -2407,10 +2458,26 @@ class LiveTvRepository @Inject constructor(
             // The playlist's own User-Agent: one shared copy for every channel with no headers of its own.
             val playlistAgent = pl.effectiveUserAgent
             val agentOnly = if (playlistAgent.isNotBlank()) mapOf("User-Agent" to playlistAgent) else emptyMap()
+            // Tags at the start of this playlist's group names (UK, US, 4K…), for the filter's list.
+            val tagCounts = HashMap<String, Int>()
+            val tagOfGroup = HashMap<String, String?>()
+            val groupNames = HashMap<String, String>()
+            var filteredOut = 0
             val parsed = runCatching {
                 openMaybeGzip(file).reader(Charsets.UTF_8).buffered(64 * 1024).use { reader ->
                     M3uParser.read(reader, skipVod) { e ->
                         try {
+                            val rawGroup = e.group?.ifBlank { null } ?: "Uncategorized"
+                            val shownGroup = if (rawGroup.startsWith("stalker-group:")) groupNames.getOrPut(rawGroup) {
+                                runCatching { String(android.util.Base64.decode(rawGroup.removePrefix("stalker-group:"), android.util.Base64.NO_WRAP), Charsets.UTF_8) }.getOrDefault("Uncategorized")
+                            } else rawGroup
+                            tagOfGroup.getOrPut(shownGroup) { com.nuvio.tv.livetv.model.GroupPrefixFilter.detectTag(shownGroup) }
+                                ?.let { tagCounts[it] = (tagCounts[it] ?: 0) + 1 }
+                            // Left out before anything is built for it: less memory, less guide matching.
+                            if (groupFilter != null && !groupFilter.keep(shownGroup, e.name)) {
+                                filteredOut++
+                                return@read
+                            }
                             parsedEntries++
                             if (!pl.isStalker) {
                                 if (linkKind == PlaylistLinks.Kind.LIVE) liveLinks++ else {
@@ -2470,6 +2537,8 @@ class LiveTvRepository @Inject constructor(
                 continue
             }
             embeddedEpgUrls[pl.id] = parsed.getOrThrow()
+            saveGroupTags(pl.id, tagCounts)
+            if (filteredOut > 0) LIVE_REPORT.add("${pl.name}: channel filter left out $filteredOut channel(s)")
             val hideStrays = !pl.isStalker && prefs.currentSettings().hideStrayEntries &&
                 isMarkedPlaylist(liveLinks + vodLinks, unmarkedLinks)
             if (hideStrays) counter = tail.removeStrays(counter) { EPISODE_NAME.containsMatchIn(it) }

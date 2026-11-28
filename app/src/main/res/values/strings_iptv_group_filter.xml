@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings › Live TV › Channel filter: keep or hide channels by the tag their group or name starts with (UK, US, 4K…) -->
+    <string name="iptv_group_filter_title">"Channel filter"</string>
+    <string name="iptv_group_filter_row_desc">"Keep or hide channels by the tag their group or name starts with, like UK, US or 4K. Filtered channels are left out of Live TV, the guide, Sports and search"</string>
+    <string name="iptv_group_filter_dialog_hint">"Tick tags found in your groups, or add your own. Closing with Back saves too"</string>
+    <string name="iptv_group_filter_off">"Off"</string>
+    <string name="iptv_group_filter_summary_keep">"Keep: %1$s"</string>
+    <string name="iptv_group_filter_summary_hide">"Hide: %1$s"</string>
+    <string name="iptv_group_filter_mode">"Filter"</string>
+    <string name="iptv_group_filter_mode_keep">"Keep only ticked"</string>
+    <string name="iptv_group_filter_mode_hide">"Hide ticked"</string>
+    <string name="iptv_group_filter_mode_keep_desc">"Only channels whose group or name starts with a ticked tag are kept. Select to change"</string>
+    <string name="iptv_group_filter_mode_hide_desc">"Channels whose group or name starts with a ticked tag are left out. Select to change"</string>
+    <string name="iptv_group_filter_mode_off_desc">"Every channel is shown. Select to change"</string>
+    <string name="iptv_group_filter_done">"Done"</string>
+    <string name="iptv_group_filter_done_desc">"Saves the filter and reloads your channels"</string>
+    <string name="iptv_group_filter_add">"Add your own tag"</string>
+    <string name="iptv_group_filter_add_desc">"Type a tag that isn't listed, like UK or 8K"</string>
+    <string name="iptv_group_filter_add_title">"Add tags"</string>
+    <string name="iptv_group_filter_add_hint">"e.g. UK, US, 4K (separate with commas)"</string>
+    <string name="iptv_group_filter_clear">"Untick all"</string>
+    <string name="iptv_group_filter_loading">"Looking for tags in your groups…"</string>
+    <string name="iptv_group_filter_none_found">"No tags found in your group names yet. Select to type one"</string>
+    <string name="iptv_group_filter_typed">"Added by you"</string>
+    <plurals name="iptv_group_filter_channels">
+        <item quantity="one">"%d channel"</item>
+        <item quantity="other">"%d channels"</item>
+    </plurals>
+</resources>

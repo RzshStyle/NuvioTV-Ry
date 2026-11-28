@@ -71,6 +71,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.nuvio.tv.livetv.model.ChannelSort
+import androidx.compose.material.icons.filled.FilterList
 import com.nuvio.tv.livetv.model.EpgSource
 import com.nuvio.tv.livetv.model.LiveTvSettings
 import com.nuvio.tv.livetv.model.PlaylistSource
@@ -228,6 +229,7 @@ private sealed interface LiveDialog {
     data class EditEpg(val source: EpgSource) : LiveDialog
     data object HiddenChannels : LiveDialog
     data object HiddenGroups : LiveDialog
+    data object GroupFilter : LiveDialog
     data class PlaylistGuideShift(val source: PlaylistSource) : LiveDialog
     data class PlaylistGuides(val playlistId: String) : LiveDialog
     data class PlaylistProfiles(val playlistId: String) : LiveDialog
@@ -700,6 +702,13 @@ internal fun LiveTvSettingsContent(
                         )
                     }
                     SubHeading(context.getString(R.string.iptv_settings_hidden_your_groups))
+                    SettingsActionRow(
+                        title = context.getString(R.string.iptv_group_filter_title),
+                        subtitle = context.getString(R.string.iptv_group_filter_row_desc),
+                        value = groupFilterSummary(s),
+                        leadingIcon = Icons.Default.FilterList,
+                        onClick = { dialog = LiveDialog.GroupFilter }
+                    )
                     SettingsToggleRow(
                         context.getString(R.string.iptv_settings_hide_stray_entries),
                         context.getString(R.string.iptv_settings_hide_stray_entries_desc),
@@ -2343,6 +2352,12 @@ internal fun LiveTvSettingsContent(
                 }
             }
         }
+        LiveDialog.GroupFilter -> GroupFilterDialog(
+            settings = s,
+            loadTags = { viewModel.groupTags() },
+            onSave = { mode, tags -> viewModel.applyGroupFilter(mode, tags) },
+            onDismiss = close
+        )
         LiveDialog.NameEditor -> TextInputDialog(
             title = context.getString(R.string.iptv_settings_prefixes_and_suffixes_to_remove),
             initial = s.nameRemovals,
